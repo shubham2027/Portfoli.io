@@ -167,3 +167,18 @@ Per user request, public URL publishing has been streamlined into direct multi-f
 - **Visual Polish**: Added project media frames / styled fallback art banners, metric counters, status indicators (e.g. pulsing green availability light), and micro-interactions on hover.
 - **Recruiter-Ready Professionalism**: Preserved clean typographic contrast (Inter + Fira Code), clear hierarchy, and executive readability across all screen sizes.
 
+---
+
+## 12. Project Documentation (`README.md`)
+- Authored a comprehensive, recruiter-ready [`README.md`](README.md) covering:
+  - Project overview & feature breakdown
+  - Technology stack & architecture constraints
+  - Project directory structure & layout
+  - Step-by-step installation, setup, local server execution, and testing commands
+  - Detailed showcase of the 3 flagship portfolio templates (Minimal Executive, Modern Developer, Creative Showcase)
+  - Multi-format exports guide (HTML, Print/PDF, Markdown, JSON)
+  - Database schema & foreign-key relationships diagram
+  - Security, validation, and user isolation policies
+  - Future roadmap
+
+
