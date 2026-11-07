@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ profile.full_name|default:portfolio_user.username }} — Portfolio{% endblock %}</title>
+    
+    <!-- Google Fonts: Inter & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    {% block template_css %}{% endblock %}
+
+    <style>
+        .preview-topbar {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 0.6rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-family: 'Inter', sans-serif;
+        }
+        .preview-pill {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .preview-pill.active {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+        .preview-pill:not(.active) {
+            background-color: #1e293b;
+            color: #cbd5e1;
+        }
+        .preview-pill:not(.active):hover {
+            background-color: #334155;
+            color: #ffffff;
+        }
+        .owner-draft-banner {
+            background: #fffbeb;
+            color: #92400e;
+            border-bottom: 1px solid #fde68a;
+            padding: 0.6rem 1rem;
+            font-size: 0.88rem;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 9998;
+        }
+        .portfoli-badge-fixed {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            color: #ffffff;
+            backdrop-filter: blur(8px);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+        .portfoli-badge-fixed:hover {
+            background: #4f46e5;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    {% if is_preview %}
+    <!-- Floating Preview Control Bar -->
+    <div class="preview-topbar">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark fw-bold">
+                    <i class="bi bi-eye-fill me-1"></i> Preview Mode
+                </span>
+                <span class="small text-light d-none d-md-inline">Switch templates to see how your portfolio looks:</span>
+            </div>
+
+            <!-- Template Quick Switcher -->
+            <div class="d-flex align-items-center gap-1">
+                <a href="?template=minimal" class="preview-pill {% if active_template == 'minimal' %}active{% endif %}">
+                    Minimal
+                </a>
+                <a href="?template=modern" class="preview-pill {% if active_template == 'modern' %}active{% endif %}">
+                    Developer
+                </a>
+                <a href="?template=creative" class="preview-pill {% if active_template == 'creative' %}active{% endif %}">
+                    Creative
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-primary-custom dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-download me-1"></i> Export Portfolio
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_html' %}">
+                                <i class="bi bi-filetype-html text-danger me-2"></i> Download HTML (.html)
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item small" href="{% url 'portfolio_print' %}" target="_blank">
+                                <i class="bi bi-printer text-success me-2"></i> Print / Save as PDF
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_markdown' %}">
+                                <i class="bi bi-markdown text-primary me-2"></i> Download Markdown (.md)
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_json' %}">
+                                <i class="bi bi-braces text-warning me-2"></i> Export Data (.json)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <form method="post" action="{% url 'portfolio_template_select' %}" class="d-inline m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="template" value="{{ active_template }}">
+                    <button type="submit" class="btn btn-sm btn-outline-light" title="Set this template as default">
+                        <i class="bi bi-check2"></i> Set as Default
+                    </button>
+                </form>
+
+                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-light">
+                    <i class="bi bi-arrow-left"></i> Exit to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+    {% elif is_owner_draft %}
+    <!-- Owner Draft Notice -->
+    <div class="owner-draft-banner text-center">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>
+                <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
+                <strong>Draft Mode:</strong> Your portfolio is currently unpublished and only visible to you.
+            </span>
+            <a href="{% url 'dashboard' %}" class="btn btn-xs btn-outline-dark fw-semibold" style="font-size: 0.78rem;">
+                Go to Dashboard to Publish
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Dynamic Template Content -->
+    {% block portfolio_content %}{% endblock %}
+
+    <!-- Subtle Floating Badge on Public View -->
+    {% if not is_preview %}
+        <a href="{% url 'landing' %}" target="_blank" class="portfoli-badge-fixed">
+            <i class="bi bi-briefcase-fill text-primary"></i> Made with portfoli.io
+        </a>
+    {% endif %}
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

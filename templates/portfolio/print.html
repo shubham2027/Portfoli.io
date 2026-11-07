@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.full_name|default:portfolio_user.username }} — Resume & Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: #1e293b;
+            background-color: #f8fafc;
+            line-height: 1.5;
+        }
+        .print-page {
+            max-width: 860px;
+            margin: 2rem auto;
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .print-bar {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .print-section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-page {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+            a {
+                text-decoration: none !important;
+                color: #000000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Non-printable top action bar -->
+    <div class="print-bar no-print">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-primary text-white">Print / PDF Mode</span>
+                <span class="small text-light d-none d-sm-inline">Use the button on the right or press Ctrl+P to save as PDF.</span>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-light">
+                    <i class="bi bi-arrow-left me-1"></i> Dashboard
+                </a>
+                <button type="button" class="btn btn-sm btn-success" onclick="window.print()">
+                    <i class="bi bi-printer me-1"></i> Print / Save as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Resume Page -->
+    <div class="container">
+        <div class="print-page">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4">
+                <div>
+                    <h1 class="fw-bold mb-1 display-6 text-dark">{{ profile.full_name|default:portfolio_user.username }}</h1>
+                    <div class="fs-5 text-secondary mb-2">{{ profile.title|default:"Professional Resume" }}</div>
+                    
+                    <div class="small text-muted d-flex flex-wrap gap-3">
+                        {% if profile.email %}
+                            <span><i class="bi bi-envelope me-1"></i>{{ profile.email }}</span>
+                        {% endif %}
+                        {% if profile.phone %}
+                            <span><i class="bi bi-telephone me-1"></i>{{ profile.phone }}</span>
+                        {% endif %}
+                        {% if profile.location %}
+                            <span><i class="bi bi-geo-alt me-1"></i>{{ profile.location }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="{{ profile.full_name|default:portfolio_user.username }}" class="rounded-circle border" style="width: 85px; height: 85px; object-fit: cover;">
+                {% endif %}
+            </div>
+
+            <!-- Links -->
+            {% if profile.github_url or profile.linkedin_url or profile.website_url %}
+            <div class="mb-4 small d-flex flex-wrap gap-3 p-2 bg-light rounded">
+                {% if profile.github_url %}
+                    <span><strong>GitHub:</strong> {{ profile.github_url }}</span>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                    <span><strong>LinkedIn:</strong> {{ profile.linkedin_url }}</span>
+                {% endif %}
+                {% if profile.website_url %}
+                    <span><strong>Website:</strong> {{ profile.website_url }}</span>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Bio / Summary -->
+            {% if profile.bio %}
+            <div class="mb-4">
+                <h2 class="print-section-title">Professional Summary</h2>
+                <p class="small text-dark mb-0" style="line-height: 1.6;">
+                    {{ profile.bio }}
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Education -->
+            {% if educations %}
+            <div class="mb-4">
+                <h2 class="print-section-title">Education</h2>
+                {% for edu in educations %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                        <strong class="text-dark">{{ edu.degree }}{% if edu.field_of_study %} in {{ edu.field_of_study }}{% endif %}</strong>
+                        <span class="small text-muted">
+                            {% if edu.start_year %}{{ edu.start_year }} – {% endif %}{% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}
+                        </span>
+                    </div>
+                    <div class="text-secondary small mb-1">{{ edu.institution }}</div>
+                    {% if edu.description %}
+                        <p class="small text-muted mb-0">{{ edu.description }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Skills -->
+            {% if skills %}
+            <div class="mb-4">
+                <h2 class="print-section-title">Skills & Proficiencies</h2>
+                <div class="row g-2">
+                    {% for skill in skills %}
+                    <div class="col-6 col-md-4">
+                        <div class="small">
+                            <strong>{{ skill.name }}</strong>
+                            <span class="text-muted">({{ skill.proficiency }})</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Projects -->
+            {% if projects %}
+            <div class="mb-4">
+                <h2 class="print-section-title">Featured Projects</h2>
+                {% for proj in projects %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-baseline">
+                        <strong class="text-dark">{{ proj.title }}</strong>
+                        <span class="small text-muted">
+                            {% if proj.github_url %}{{ proj.github_url }}{% endif %}
+                        </span>
+                    </div>
+                    {% if proj.technologies %}
+                        <div class="small text-secondary mb-1"><em>Technologies: {{ proj.technologies }}</em></div>
+                    {% endif %}
+                    <p class="small text-muted mb-0">{{ proj.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="pt-3 mt-4 border-top text-center text-muted small" style="font-size: 0.75rem;">
+                Generated with portfoli.io · {{ request.user.username }}'s Portfolio
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

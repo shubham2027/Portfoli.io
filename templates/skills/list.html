@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Skills Management — portfoli.io{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light" style="min-height: calc(100vh - 200px);">
+    <div class="container">
+        <!-- Breadcrumb & Header -->
+        <div class="mb-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2 small">
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Skills</li>
+                </ol>
+            </nav>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Skills & Proficiencies</h2>
+                    <p class="text-muted mb-0">Highlight your technical proficiencies, tools, frameworks, and design abilities.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-custom">
+                        <i class="bi bi-arrow-left me-1"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: Add Skill Card Form -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top" style="border-radius: var(--radius-lg); top: 100px;">
+                    <div class="card-header bg-white border-bottom py-3 px-4">
+                        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-plus-circle text-primary me-2"></i>Add New Skill</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'skill_list' %}" novalidate>
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger py-2 small" role="alert">
+                                    {% for error in form.non_field_errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <!-- Skill Name -->
+                            <div class="mb-3">
+                                <label for="{{ form.name.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                    Skill Name <span class="text-danger">*</span>
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Category -->
+                            <div class="mb-3">
+                                <label for="{{ form.category.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                    Category
+                                </label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="text-danger small mt-1">{{ form.category.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Proficiency -->
+                            <div class="mb-4">
+                                <label for="{{ form.proficiency.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                    Proficiency Level
+                                </label>
+                                {{ form.proficiency }}
+                                {% if form.proficiency.errors %}
+                                    <div class="text-danger small mt-1">{{ form.proficiency.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary-custom w-100 py-2">
+                                <i class="bi bi-plus-lg me-1"></i> Add Skill
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Categorized Skills Display -->
+            <div class="col-lg-8">
+                {% if categories %}
+                    {% for category, skill_list in categories.items %}
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: var(--radius-lg);">
+                        <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
+                            <h6 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-tag-fill text-primary me-2"></i>{{ category }}
+                            </h6>
+                            <span class="badge bg-light text-dark border">{{ skill_list|length }}</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for skill in skill_list %}
+                                <div class="d-inline-flex align-items-center bg-light border rounded-pill px-3 py-2 shadow-xs">
+                                    <span class="fw-semibold text-dark me-2">{{ skill.name }}</span>
+                                    
+                                    <!-- Proficiency Badge -->
+                                    <span class="badge 
+                                        {% if skill.proficiency == 'Expert' %}bg-success
+                                        {% elif skill.proficiency == 'Advanced' %}bg-primary
+                                        {% elif skill.proficiency == 'Intermediate' %}bg-info text-dark
+                                        {% else %}bg-secondary{% endif %} 
+                                        rounded-pill small me-2" style="font-size: 0.72rem;">
+                                        {{ skill.proficiency }}
+                                    </span>
+
+                                    <!-- Delete Button -->
+                                    <form method="post" action="{% url 'skill_delete' skill.pk %}" class="d-inline m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-link text-muted p-0 hover-danger" title="Remove {{ skill.name }}" onclick="return confirm('Remove skill {{ skill.name }}?');">
+                                            <i class="bi bi-x-circle-fill text-secondary"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Empty State -->
+                    <div class="card border-0 shadow-sm text-center py-5" style="border-radius: var(--radius-lg);">
+                        <div class="card-body p-5">
+                            <div class="brand-icon-box mx-auto mb-3" style="width: 64px; height: 64px; font-size: 2rem;">
+                                <i class="bi bi-tools"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">No Skills Added Yet</h4>
+                            <p class="text-muted mx-auto mb-0" style="max-width: 450px;">
+                                Use the form on the left to add your first skill, choose its category (e.g. Backend, Frontend, Design) and proficiency level.
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

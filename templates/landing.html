@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}portfoli.io — Simple & Functional Portfolio Generator{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     Hero Section
+     ========================================================================== -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Left Hero Text & CTA -->
+            <div class="col-lg-6">
+                <div class="hero-pill">
+                    <i class="bi bi-stars text-primary"></i> The Smart Portfolio Builder for Students & Pros
+                </div>
+                
+                <h1 class="hero-title">
+                    Create Your Professional Portfolio <span class="gradient-text">in Minutes</span>
+                </h1>
+                
+                <p class="hero-description">
+                    No coding required. Enter your bio, education, skills, and projects, choose a curated template, and export instantly in multiple formats (HTML, PDF, Markdown, JSON).
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 hero-buttons mb-4">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary-custom btn-lg-custom">
+                            Go to My Dashboard <i class="bi bi-speedometer2 ms-1"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn btn-primary-custom btn-lg-custom">
+                            Create My Portfolio <i class="bi bi-arrow-right"></i>
+                        </a>
+                    {% endif %}
+                    <a href="#templates" class="btn btn-outline-custom btn-lg-custom">
+                        <i class="bi bi-grid-3x3-gap"></i> Explore Templates
+                    </a>
+                </div>
+
+                <!-- Micro Benefits -->
+                <div class="d-flex flex-wrap gap-4 text-muted small pt-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fw-medium text-dark">100% Free to Use</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fw-medium text-dark">Multi-Format File Exports</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        <span class="fw-medium text-dark">No Coding Needed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Hero Visual Mockup -->
+            <div class="col-lg-6">
+                <div class="mockup-window">
+                    <div class="mockup-header">
+                        <div class="mockup-dots">
+                            <span class="mockup-dot dot-red"></span>
+                            <span class="mockup-dot dot-yellow"></span>
+                            <span class="mockup-dot dot-green"></span>
+                        </div>
+                        <div class="mockup-address-bar">
+                            <i class="bi bi-file-earmark-code text-primary"></i>
+                            <span>alex_morgan_portfolio.html</span>
+                        </div>
+                        <span class="badge bg-light text-secondary border px-2 py-1 small">
+                            <i class="bi bi-download"></i> Export Ready
+                        </span>
+                    </div>
+
+                    <div class="mockup-body">
+                        <!-- Simulated Profile Header -->
+                        <div class="mockup-profile">
+                            <div class="mockup-avatar">
+                                AM
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h5 class="mockup-name mb-0">Alex Morgan</h5>
+                                    <span class="mockup-badge-live">
+                                        <span class="pulse-dot"></span> Available
+                                    </span>
+                                </div>
+                                <div class="mockup-title">Full-Stack Software Engineer</div>
+                                <div class="text-muted small">
+                                    <i class="bi bi-geo-alt me-1"></i>San Francisco, CA &nbsp;·&nbsp;
+                                    <i class="bi bi-mortarboard me-1"></i>B.S. Computer Science
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bio summary -->
+                        <p class="small text-muted mb-3">
+                            Building reliable web platforms and open-source developer tools. Passionate about clean architectures and minimal design.
+                        </p>
+
+                        <!-- Skill Tags -->
+                        <div class="mockup-skills">
+                            <span class="skill-tag"><i class="bi bi-code-slash text-primary me-1"></i>Python</span>
+                            <span class="skill-tag"><i class="bi bi-gear-fill text-primary me-1"></i>Django</span>
+                            <span class="skill-tag"><i class="bi bi-filetype-js text-warning me-1"></i>JavaScript</span>
+                            <span class="skill-tag"><i class="bi bi-bootstrap-fill text-primary me-1"></i>Bootstrap 5</span>
+                            <span class="skill-tag"><i class="bi bi-database text-info me-1"></i>SQLite</span>
+                        </div>
+
+                        <!-- Mini Project Preview Card -->
+                        <div class="mockup-project-mini">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="fw-bold mb-1 small text-dark">
+                                        <i class="bi bi-folder-fill text-primary me-1"></i> Distributed Task Orchestrator
+                                    </h6>
+                                    <p class="text-muted small mb-2" style="font-size: 0.78rem;">
+                                        High-throughput pipeline processor built with Python and asynchronous workers.
+                                    </p>
+                                </div>
+                                <div class="d-flex gap-2 text-muted">
+                                    <a href="#" class="text-secondary small"><i class="bi bi-github"></i></a>
+                                    <a href="#" class="text-secondary small"><i class="bi bi-box-arrow-up-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <span class="badge bg-white text-secondary border" style="font-size: 0.7rem;">Python</span>
+                                <span class="badge bg-white text-secondary border" style="font-size: 0.7rem;">Django</span>
+                                <span class="badge bg-white text-secondary border" style="font-size: 0.7rem;">Redis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Features Section
+     ========================================================================== -->
+<section id="features" class="features-section">
+    <div class="container">
+        <div class="text-center section-header">
+            <span class="section-badge">Core Capabilities</span>
+            <h2 class="section-title">Everything You Need to Stand Out</h2>
+            <p class="section-subtitle">
+                Designed to make portfolio creation completely frictionless for students, developers, and career changers.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            {% for feature in features %}
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="bi {{ feature.icon }}"></i>
+                    </div>
+                    <h5>{{ feature.title }}</h5>
+                    <p>{{ feature.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Portfolio Templates Showcase Section
+     ========================================================================== -->
+<section id="templates" class="templates-section">
+    <div class="container">
+        <div class="text-center section-header">
+            <span class="section-badge">Handcrafted Designs</span>
+            <h2 class="section-title">Choose Your Portfolio Template</h2>
+            <p class="section-subtitle">
+                Switch between distinct layout styles anytime with a single click. Every template renders dynamically from your profile data.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            {% for template in templates_preview %}
+            <div class="col-lg-4 col-md-6">
+                <div class="template-card">
+                    <div class="template-preview-header">
+                        <span class="template-badge">{{ template.badge }}</span>
+                        
+                        <!-- Mini Preview Rendering -->
+                        <div class="preview-mini-profile">
+                            <div class="preview-mini-avatar" style="background-color: {{ template.accent_color }};">
+                                {{ template.sample_name|slice:":2" }}
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">{{ template.sample_name }}</h6>
+                                <span class="small text-muted">{{ template.sample_title }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 d-flex gap-2">
+                            <span class="badge bg-white text-dark border small">Education</span>
+                            <span class="badge bg-white text-dark border small">Skills</span>
+                            <span class="badge bg-white text-dark border small">Projects</span>
+                        </div>
+                    </div>
+
+                    <div class="template-card-body">
+                        <h4>{{ template.name }}</h4>
+                        <p>{{ template.description }}</p>
+
+                        <h6 class="fw-bold small text-uppercase text-muted mb-2" style="letter-spacing: 0.05em;">Highlights</h6>
+                        <ul class="template-feature-list">
+                            {% for feat in template.features %}
+                            <li>
+                                <i class="bi bi-check2-circle"></i> {{ feat }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="mt-auto pt-3 border-top d-flex gap-2">
+                            <button type="button" class="btn btn-outline-custom w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ template.id }}">
+                                <i class="bi bi-eye"></i> Quick Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Quick Preview -->
+            <div class="modal fade" id="modal-{{ template.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ template.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+                        <div class="modal-header border-bottom px-4 py-3 bg-light">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary text-white">{{ template.badge }}</span>
+                                <h5 class="modal-title fw-bold text-dark" id="modalLabel-{{ template.id }}">{{ template.name }}</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <div class="p-4 rounded-3 border" style="background-color: #fbfcfe;">
+                                <div class="text-center mb-4">
+                                    <div class="mx-auto mb-3 preview-mini-avatar" style="width: 72px; height: 72px; font-size: 1.5rem; background-color: {{ template.accent_color }};">
+                                        {{ template.sample_name|slice:":2" }}
+                                    </div>
+                                    <h4 class="fw-bold mb-1">{{ template.sample_name }}</h4>
+                                    <p class="text-muted mb-2">{{ template.sample_title }}</p>
+                                    <span class="badge bg-light text-secondary border px-3 py-1">
+                                        Format: {{ template.name }} (.html / .pdf)
+                                    </span>
+                                </div>
+                                
+                                <div class="row g-3 text-start">
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded">
+                                            <h6 class="fw-bold mb-2 text-dark"><i class="bi bi-mortarboard text-primary me-2"></i>Education</h6>
+                                            <p class="small text-muted mb-0">Stanford University · B.S. in Computer Science (2020 – 2024)</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded">
+                                            <h6 class="fw-bold mb-2 text-dark"><i class="bi bi-tools text-primary me-2"></i>Key Skills</h6>
+                                            <div class="d-flex flex-wrap gap-1">
+                                                <span class="badge bg-light text-dark border">Python</span>
+                                                <span class="badge bg-light text-dark border">Django</span>
+                                                <span class="badge bg-light text-dark border">JavaScript</span>
+                                                <span class="badge bg-light text-dark border">Bootstrap 5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="p-3 bg-white border rounded">
+                                            <h6 class="fw-bold mb-2 text-dark"><i class="bi bi-code-square text-primary me-2"></i>Featured Project</h6>
+                                            <p class="small text-muted mb-1"><strong>Real-time Analytics Engine:</strong> Distributed telemetry dashboard built with Python and Django.</p>
+                                            <span class="badge bg-light text-primary border me-1"><i class="bi bi-github"></i> Repository</span>
+                                            <span class="badge bg-light text-success border"><i class="bi bi-link-45deg"></i> Live URL</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top px-4 py-3 bg-light">
+                            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dashboard' %}" class="btn btn-primary-custom" data-bs-dismiss="modal">
+                                    Use {{ template.name }} <i class="bi bi-arrow-right"></i>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'register' %}" class="btn btn-primary-custom" data-bs-dismiss="modal">
+                                    Select {{ template.name }} <i class="bi bi-arrow-right"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     How It Works Section
+     ========================================================================== -->
+<section id="how-it-works" class="steps-section">
+    <div class="container">
+        <div class="text-center section-header">
+            <span class="section-badge">Simple Process</span>
+            <h2 class="section-title">How portfoli.io Works</h2>
+            <p class="section-subtitle">
+                Go from an empty page to a polished, recruiter-ready personal portfolio in 3 quick steps.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            {% for step in steps %}
+            <div class="col-lg-4 col-md-6">
+                <div class="step-card">
+                    <div class="step-number-badge">
+                        {{ step.number }}
+                    </div>
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Call to Action (CTA) Banner
+     ========================================================================== -->
+<section class="cta-banner-section">
+    <div class="container">
+        <div class="cta-banner-card text-center text-lg-start d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            <div>
+                <h2>Ready to Build Your Portfolio?</h2>
+                <p>
+                    Create your free account, showcase your education, skills, and projects, and share your personal URL with the world.
+                </p>
+            </div>
+            <div class="mt-4 mt-lg-0 flex-shrink-0">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-white-custom btn-lg-custom">
+                        Go to My Dashboard <i class="bi bi-speedometer2 ms-1"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-white-custom btn-lg-custom">
+                        Start Building Free <i class="bi bi-arrow-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

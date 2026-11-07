@@ -1,0 +1,491 @@
+{% extends 'portfolio/base_portfolio.html' %}
+
+{% block title %}{{ profile.full_name|default:portfolio_user.username }} — Minimal Executive Portfolio{% endblock %}
+
+{% block template_css %}
+<style>
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #fafaf9;
+        color: #1c1917;
+        line-height: 1.6;
+    }
+    .minimal-page-wrapper {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 3rem 1.25rem 4rem;
+    }
+    .minimal-sticky-sidebar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 4.5rem;
+    }
+    .minimal-profile-card {
+        background: #ffffff;
+        border: 1px solid #e7e5e4;
+        border-radius: 16px;
+        padding: 2rem 1.75rem;
+        box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.03);
+    }
+    .minimal-avatar-frame {
+        width: 104px;
+        height: 104px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #f5f5f4;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .minimal-avatar-fallback {
+        width: 104px;
+        height: 104px;
+        border-radius: 50%;
+        background: #1c1917;
+        color: #fafaf9;
+        font-size: 2.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+    .minimal-status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #f5f5f4;
+        color: #44403c;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.25rem 0.65rem;
+        border-radius: 9999px;
+        border: 1px solid #e7e5e4;
+    }
+    .minimal-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #10b981;
+    }
+    .minimal-metric-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: #fbfbfa;
+        border: 1px solid #f0eeeb;
+        border-radius: 10px;
+        padding: 0.75rem 0.5rem;
+        margin: 1.5rem 0;
+        text-align: center;
+    }
+    .minimal-metric-item:not(:last-child) {
+        border-right: 1px solid #e7e5e4;
+    }
+    .minimal-metric-val {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1c1917;
+        line-height: 1.2;
+    }
+    .minimal-metric-lbl {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #78716c;
+    }
+    .minimal-link-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+        color: #44403c;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: all 0.15s ease;
+    }
+    .minimal-link-row:hover {
+        background: #f5f5f4;
+        color: #0c0a09;
+        transform: translateX(3px);
+    }
+    .minimal-link-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: #f5f5f4;
+        color: #292524;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+    .section-eyebrow {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #a8a29e;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.25rem;
+    }
+    .section-eyebrow::after {
+        content: "";
+        flex-grow: 1;
+        height: 1px;
+        background: #e7e5e4;
+    }
+    .minimal-project-card {
+        background: #ffffff;
+        border: 1px solid #e7e5e4;
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+    .minimal-project-card:hover {
+        border-color: #a8a29e;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.06);
+    }
+    .minimal-project-img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        border-bottom: 1px solid #f0eeeb;
+    }
+    .minimal-project-placeholder {
+        width: 100%;
+        height: 72px;
+        background: linear-gradient(135deg, #f5f5f4 0%, #ebe8e5 100%);
+        border-bottom: 1px solid #f0eeeb;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 1.25rem;
+        color: #a8a29e;
+    }
+    .minimal-tag {
+        font-size: 0.72rem;
+        font-weight: 500;
+        background: #f5f5f4;
+        color: #44403c;
+        padding: 0.2rem 0.55rem;
+        border-radius: 5px;
+        border: 1px solid #e7e5e4;
+    }
+    .minimal-category-box {
+        background: #ffffff;
+        border: 1px solid #e7e5e4;
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .minimal-timeline {
+        position: relative;
+        padding-left: 1.75rem;
+    }
+    .minimal-timeline::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: #e7e5e4;
+    }
+    .minimal-timeline-item {
+        position: relative;
+        padding-bottom: 1.75rem;
+    }
+    .minimal-timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    .minimal-timeline-dot {
+        position: absolute;
+        left: -1.75rem;
+        top: 5px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 3px solid #1c1917;
+    }
+    .minimal-empty-box {
+        background: #fbfbfa;
+        border: 1px dashed #d6d3d1;
+        border-radius: 12px;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+        color: #78716c;
+    }
+</style>
+{% endblock %}
+
+{% block portfolio_content %}
+<div class="minimal-page-wrapper">
+    <div class="row g-4 g-lg-5">
+        <!-- Left Sidebar: Profile & Bio -->
+        <aside class="col-lg-4 col-xl-4">
+            <div class="minimal-sticky-sidebar">
+                <div class="minimal-profile-card">
+                    <!-- Avatar & Status -->
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        {% if profile.profile_picture %}
+                            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.full_name|default:portfolio_user.username }}" class="minimal-avatar-frame">
+                        {% else %}
+                            <div class="minimal-avatar-fallback">
+                                {{ profile.full_name|default:portfolio_user.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+
+                        <span class="minimal-status-pill">
+                            <span class="minimal-status-dot"></span> Available
+                        </span>
+                    </div>
+
+                    <!-- Name & Title -->
+                    <h1 class="h3 fw-bold mb-1 text-dark" style="letter-spacing: -0.03em;">
+                        {{ profile.full_name|default:portfolio_user.username }}
+                    </h1>
+                    <p class="text-secondary fw-medium mb-2">
+                        {{ profile.title|default:"Professional Specialist" }}
+                    </p>
+
+                    {% if profile.location %}
+                        <div class="text-muted small mb-3">
+                            <i class="bi bi-geo-alt me-1"></i> {{ profile.location }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Metric Strip -->
+                    <div class="minimal-metric-strip">
+                        <div class="minimal-metric-item">
+                            <div class="minimal-metric-val">{{ projects|length }}</div>
+                            <div class="minimal-metric-lbl">Projects</div>
+                        </div>
+                        <div class="minimal-metric-item">
+                            <div class="minimal-metric-val">{{ skills|length }}</div>
+                            <div class="minimal-metric-lbl">Skills</div>
+                        </div>
+                        <div class="minimal-metric-item">
+                            <div class="minimal-metric-val">{{ educations|length }}</div>
+                            <div class="minimal-metric-lbl">Degrees</div>
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    {% if profile.bio %}
+                        <div class="border-start border-2 border-dark ps-3 py-1 mb-4 text-muted small" style="line-height: 1.65;">
+                            {{ profile.bio }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Contact & Profiles Stack -->
+                    <div class="d-flex flex-column gap-1 pt-2 border-top">
+                        {% if profile.email %}
+                            <a href="mailto:{{ profile.email }}" class="minimal-link-row">
+                                <span class="minimal-link-icon"><i class="bi bi-envelope"></i></span>
+                                <span class="text-truncate">{{ profile.email }}</span>
+                            </a>
+                        {% endif %}
+
+                        {% if profile.phone %}
+                            <a href="tel:{{ profile.phone }}" class="minimal-link-row">
+                                <span class="minimal-link-icon"><i class="bi bi-telephone"></i></span>
+                                <span>{{ profile.phone }}</span>
+                            </a>
+                        {% endif %}
+
+                        {% if profile.github_url %}
+                            <a href="{{ profile.github_url }}" target="_blank" class="minimal-link-row">
+                                <span class="minimal-link-icon"><i class="bi bi-github"></i></span>
+                                <span class="text-truncate">github.com</span>
+                                <i class="bi bi-arrow-up-right ms-auto small text-muted"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if profile.linkedin_url %}
+                            <a href="{{ profile.linkedin_url }}" target="_blank" class="minimal-link-row">
+                                <span class="minimal-link-icon"><i class="bi bi-linkedin"></i></span>
+                                <span class="text-truncate">linkedin.com</span>
+                                <i class="bi bi-arrow-up-right ms-auto small text-muted"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if profile.website_url %}
+                            <a href="{{ profile.website_url }}" target="_blank" class="minimal-link-row">
+                                <span class="minimal-link-icon"><i class="bi bi-globe"></i></span>
+                                <span class="text-truncate">Personal Website</span>
+                                <i class="bi bi-arrow-up-right ms-auto small text-muted"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Main Content: Projects, Skills, Education -->
+        <main class="col-lg-8 col-xl-8">
+            <!-- Selected Projects -->
+            <section class="mb-5">
+                <div class="section-eyebrow">
+                    <span>01 / Selected Projects ({{ projects|length }})</span>
+                </div>
+
+                {% if projects %}
+                    <div class="row g-3">
+                        {% for proj in projects %}
+                        <div class="col-md-6">
+                            <div class="minimal-project-card">
+                                {% if proj.image %}
+                                    <img src="{{ proj.image.url }}" alt="{{ proj.title }}" class="minimal-project-img">
+                                {% else %}
+                                    <div class="minimal-project-placeholder">
+                                        <i class="bi bi-code-slash fs-4"></i>
+                                    </div>
+                                {% endif %}
+
+                                <div class="p-3 d-flex flex-column flex-grow-1">
+                                    <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                                        <h3 class="h6 fw-bold text-dark mb-0">{{ proj.title }}</h3>
+                                        <div class="d-flex gap-2">
+                                            {% if proj.github_url %}
+                                                <a href="{{ proj.github_url }}" target="_blank" class="text-secondary small text-decoration-none" title="GitHub Code">
+                                                    <i class="bi bi-github"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if proj.live_url %}
+                                                <a href="{{ proj.live_url }}" target="_blank" class="text-secondary small text-decoration-none" title="Live Preview">
+                                                    <i class="bi bi-box-arrow-up-right"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <p class="text-muted small mb-3 flex-grow-1" style="font-size: 0.82rem; line-height: 1.5;">
+                                        {{ proj.description }}
+                                    </p>
+
+                                    {% if proj.tech_list %}
+                                        <div class="d-flex flex-wrap gap-1 mt-auto pt-2 border-top border-light">
+                                            {% for tech in proj.tech_list %}
+                                                <span class="minimal-tag">{{ tech }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="minimal-empty-box">
+                        <i class="bi bi-journal-code fs-3 d-block mb-2"></i>
+                        <h6 class="fw-semibold text-dark mb-1">No Projects Highlighted Yet</h6>
+                        <p class="small mb-0">Projects added from the dashboard will be displayed in this executive showcase.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- Skills & Competencies -->
+            <section class="mb-5">
+                <div class="section-eyebrow">
+                    <span>02 / Core Skills & Proficiencies</span>
+                </div>
+
+                {% if skills_by_category %}
+                    <div class="row g-3">
+                        {% for category, cat_skills in skills_by_category.items %}
+                        <div class="col-12">
+                            <div class="minimal-category-box">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h4 class="h6 fw-bold text-dark mb-0 text-uppercase" style="letter-spacing: 0.05em; font-size: 0.8rem;">
+                                        <i class="bi bi-layers text-secondary me-1"></i> {{ category }}
+                                    </h4>
+                                    <span class="text-muted small" style="font-size: 0.75rem;">{{ cat_skills|length }} skill{{ cat_skills|length|pluralize }}</span>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for skill in cat_skills %}
+                                        <span class="minimal-tag px-3 py-1 d-inline-flex align-items-center gap-2">
+                                            <span class="fw-semibold text-dark">{{ skill.name }}</span>
+                                            <span class="text-muted" style="font-size: 0.68rem;">· {{ skill.proficiency }}</span>
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% elif skills %}
+                    <div class="minimal-category-box">
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in skills %}
+                                <span class="minimal-tag px-3 py-1 d-inline-flex align-items-center gap-2">
+                                    <span class="fw-semibold text-dark">{{ skill.name }}</span>
+                                    <span class="text-muted" style="font-size: 0.68rem;">· {{ skill.proficiency }}</span>
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="minimal-empty-box">
+                        <i class="bi bi-cpu fs-3 d-block mb-2"></i>
+                        <h6 class="fw-semibold text-dark mb-1">Skills Not Listed Yet</h6>
+                        <p class="small mb-0">Add your technical and domain proficiencies to present them categorized here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- Education & Credentials -->
+            <section class="mb-5">
+                <div class="section-eyebrow">
+                    <span>03 / Academic Background & Credentials</span>
+                </div>
+
+                {% if educations %}
+                    <div class="minimal-profile-card">
+                        <div class="minimal-timeline">
+                            {% for edu in educations %}
+                            <div class="minimal-timeline-item">
+                                <div class="minimal-timeline-dot"></div>
+                                <div class="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mb-1">
+                                    <h4 class="h6 fw-bold text-dark mb-0">
+                                        {{ edu.degree }}{% if edu.field_of_study %} in {{ edu.field_of_study }}{% endif %}
+                                    </h4>
+                                    <span class="minimal-tag" style="font-size: 0.72rem;">
+                                        {% if edu.start_year %}{{ edu.start_year }} — {% endif %}{% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}
+                                    </span>
+                                </div>
+                                <div class="text-secondary small fw-medium mb-1">
+                                    <i class="bi bi-building me-1"></i> {{ edu.institution }}
+                                </div>
+                                {% if edu.description %}
+                                    <p class="text-muted small mb-0 mt-2" style="font-size: 0.82rem; line-height: 1.55;">
+                                        {{ edu.description }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="minimal-empty-box">
+                        <i class="bi bi-mortarboard fs-3 d-block mb-2"></i>
+                        <h6 class="fw-semibold text-dark mb-1">Education History Coming Soon</h6>
+                        <p class="small mb-0">Degrees and certifications will show chronologically here.</p>
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- Minimal Footer -->
+            <footer class="pt-4 border-top border-2 text-center text-muted small">
+                <span>&copy; {% now "Y" %} {{ profile.full_name|default:portfolio_user.username }} · Curated with <strong class="text-dark">portfoli.io</strong></span>
+            </footer>
+        </main>
+    </div>
+</div>
+{% endblock %}

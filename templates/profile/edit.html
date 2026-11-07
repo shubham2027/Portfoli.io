@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile — portfoli.io{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light" style="min-height: calc(100vh - 200px);">
+    <div class="container">
+        <!-- Breadcrumb & Page Header -->
+        <div class="mb-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2 small">
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                </ol>
+            </nav>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Edit Profile Details</h2>
+                    <p class="text-muted mb-0">Update your personal bio, contact info, and professional links displayed on your portfolio.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-custom">
+                        <i class="bi bi-arrow-left me-1"></i> Return to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <div class="row g-4">
+                <!-- Left Sidebar: Profile Preview Card -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm sticky-top" style="border-radius: var(--radius-lg); top: 100px;">
+                        <div class="card-body p-4 text-center">
+                            <!-- Avatar Preview -->
+                            <div class="mb-3 position-relative d-inline-block">
+                                {% if profile.profile_picture %}
+                                    <img src="{{ profile.profile_picture.url }}" alt="{{ profile.full_name|default:user.username }}" class="rounded-circle shadow-sm" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #eef2ff;">
+                                {% else %}
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center shadow-sm mx-auto" style="width: 120px; height: 120px; font-size: 2.5rem; font-weight: 700; border: 3px solid #eef2ff;">
+                                        {{ profile.full_name|default:user.username|slice:":1"|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <h5 class="fw-bold mb-1 text-dark">{{ profile.full_name|default:user.username }}</h5>
+                            <p class="text-muted small mb-2">{{ profile.title|default:"No title specified yet" }}</p>
+
+                            {% if profile.location %}
+                                <div class="text-muted small mb-3">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ profile.location }}
+                                </div>
+                            {% endif %}
+
+                            <div class="p-3 bg-light rounded text-start small mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-muted">Profile Strength</span>
+                                    <span class="fw-bold text-primary">{{ profile.get_completion_percentage }}%</span>
+                                </div>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ profile.get_completion_percentage }}%;" aria-valuenow="{{ profile.get_completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center gap-2">
+                                {% if profile.github_url %}
+                                    <a href="{{ profile.github_url }}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-circle" title="GitHub">
+                                        <i class="bi bi-github"></i>
+                                    </a>
+                                {% endif %}
+                                {% if profile.linkedin_url %}
+                                    <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle" title="LinkedIn">
+                                        <i class="bi bi-linkedin"></i>
+                                    </a>
+                                {% endif %}
+                                {% if profile.website_url %}
+                                    <a href="{{ profile.website_url }}" target="_blank" class="btn btn-sm btn-outline-info rounded-circle" title="Website">
+                                        <i class="bi bi-globe"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form Fields -->
+                <div class="col-lg-8">
+                    <!-- Basic Information Card -->
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: var(--radius-lg);">
+                        <div class="card-header bg-white border-bottom py-3 px-4">
+                            <h5 class="fw-bold text-dark mb-0"><i class="bi bi-person-fill text-primary me-2"></i>Personal & Role Information</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.full_name.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Full Name
+                                    </label>
+                                    {{ form.full_name }}
+                                    {% if form.full_name.errors %}
+                                        <div class="text-danger small mt-1">{{ form.full_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Professional Title
+                                    </label>
+                                    {{ form.title }}
+                                    <div class="form-text small text-muted">{{ form.title.help_text }}</div>
+                                    {% if form.title.errors %}
+                                        <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="{{ form.location.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Location
+                                    </label>
+                                    {{ form.location }}
+                                    <div class="form-text small text-muted">{{ form.location.help_text }}</div>
+                                    {% if form.location.errors %}
+                                        <div class="text-danger small mt-1">{{ form.location.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="{{ form.profile_picture.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Profile Picture (Optional)
+                                    </label>
+                                    {{ form.profile_picture }}
+                                    <div class="form-text small text-muted">Upload JPG, PNG or WEBP (Square recommended)</div>
+                                    {% if form.profile_picture.errors %}
+                                        <div class="text-danger small mt-1">{{ form.profile_picture.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details Card -->
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: var(--radius-lg);">
+                        <div class="card-header bg-white border-bottom py-3 px-4">
+                            <h5 class="fw-bold text-dark mb-0"><i class="bi bi-envelope-fill text-primary me-2"></i>Contact Details</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Public Contact Email
+                                    </label>
+                                    {{ form.email }}
+                                    <div class="form-text small text-muted">{{ form.email.help_text }}</div>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.phone.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        Phone Number (Optional)
+                                    </label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                        <div class="text-danger small mt-1">{{ form.phone.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bio / About Me Card -->
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: var(--radius-lg);">
+                        <div class="card-header bg-white border-bottom py-3 px-4">
+                            <h5 class="fw-bold text-dark mb-0"><i class="bi bi-card-text text-primary me-2"></i>Professional Biography</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="mb-0">
+                                <label for="{{ form.bio.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                    About Me / Summary
+                                </label>
+                                {{ form.bio }}
+                                <div class="form-text small text-muted">{{ form.bio.help_text }}</div>
+                                {% if form.bio.errors %}
+                                    <div class="text-danger small mt-1">{{ form.bio.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social & External Links Card -->
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: var(--radius-lg);">
+                        <div class="card-header bg-white border-bottom py-3 px-4">
+                            <h5 class="fw-bold text-dark mb-0"><i class="bi bi-link-45deg text-primary me-2"></i>Social Profiles & Links</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.github_url.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        <i class="bi bi-github me-1"></i> GitHub URL
+                                    </label>
+                                    {{ form.github_url }}
+                                    {% if form.github_url.errors %}
+                                        <div class="text-danger small mt-1">{{ form.github_url.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form.linkedin_url.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        <i class="bi bi-linkedin me-1 text-primary"></i> LinkedIn URL
+                                    </label>
+                                    {{ form.linkedin_url }}
+                                    {% if form.linkedin_url.errors %}
+                                        <div class="text-danger small mt-1">{{ form.linkedin_url.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <label for="{{ form.website_url.id_for_label }}" class="form-label fw-semibold small text-dark">
+                                        <i class="bi bi-globe me-1 text-info"></i> Personal Website or Other Social Link
+                                    </label>
+                                    {{ form.website_url }}
+                                    {% if form.website_url.errors %}
+                                        <div class="text-danger small mt-1">{{ form.website_url.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Actions -->
+                    <div class="d-flex justify-content-end gap-2 pb-4">
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-custom">Cancel</a>
+                        <button type="submit" class="btn btn-primary-custom px-4 py-2">
+                            <i class="bi bi-check2-circle me-1"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
