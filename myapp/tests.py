@@ -45,6 +45,30 @@ class LandingPageTests(TestCase):
         self.assertIn('Modern Developer', content)
         self.assertIn('Creative Showcase', content)
 
+    def test_landing_page_authenticated_user(self):
+        """Logged-in users can view landing page and interact with features, templates, and steps."""
+        user = User.objects.create_user(username='tester', password='Password123!')
+        self.client.login(username='tester', password='Password123!')
+        
+        response = self.client.get(reverse('landing'))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode('utf-8')
+
+        # Features, templates, and how it works sections should remain present
+        self.assertIn('id="features"', content)
+        self.assertIn('id="templates"', content)
+        self.assertIn('id="how-it-works"', content)
+
+        # Step numbers should display
+        self.assertIn('01', content)
+        self.assertIn('02', content)
+        self.assertIn('03', content)
+
+        # Authenticated CTAs should display
+        self.assertIn('Dashboard', content)
+        self.assertIn('Live Preview with My Data', content)
+        self.assertIn(reverse('portfolio_template_select'), content)
+
 
 class AuthenticationTests(TestCase):
     def setUp(self):

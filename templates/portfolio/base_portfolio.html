@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ profile.full_name|default:portfolio_user.username }} — Portfolio{% endblock %}</title>
     
-    <!-- Google Fonts: Inter & Fira Code -->
+    <!-- Google Fonts: Bricolage Grotesque, Inter, Roboto Mono & Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,42 +19,46 @@
 
     <style>
         .preview-topbar {
-            background: #0f172a;
-            color: #ffffff;
-            padding: 0.6rem 1rem;
+            background-color: #fcfaf5;
+            color: #1a3300;
+            padding: 0.65rem 1rem;
             position: sticky;
             top: 0;
             z-index: 9999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-bottom: 1px solid #1a3300;
+            box-shadow: 0 2px 10px rgba(26, 51, 0, 0.06);
             font-family: 'Inter', sans-serif;
         }
         .preview-pill {
             font-size: 0.8rem;
             font-weight: 600;
-            padding: 0.3rem 0.8rem;
+            padding: 0.3rem 0.85rem;
             border-radius: 9999px;
             text-decoration: none;
             transition: all 0.2s ease;
         }
         .preview-pill.active {
-            background-color: #4f46e5;
-            color: #ffffff;
+            background-color: #1a3300;
+            color: #fcfaf5;
+            border: 1px solid #1a3300;
         }
         .preview-pill:not(.active) {
-            background-color: #1e293b;
-            color: #cbd5e1;
+            background-color: transparent;
+            color: #1a3300;
+            border: 1px solid #b6b6b6;
         }
         .preview-pill:not(.active):hover {
-            background-color: #334155;
-            color: #ffffff;
+            background-color: rgba(26, 51, 0, 0.06);
+            color: #1a3300;
+            border-color: #1a3300;
         }
         .owner-draft-banner {
-            background: #fffbeb;
-            color: #92400e;
-            border-bottom: 1px solid #fde68a;
+            background: #ffe95c;
+            color: #1a3300;
+            border-bottom: 1px solid #1a3300;
             padding: 0.6rem 1rem;
             font-size: 0.88rem;
-            font-weight: 500;
+            font-weight: 600;
             position: sticky;
             top: 0;
             z-index: 9998;
@@ -63,15 +67,15 @@
             position: fixed;
             bottom: 1rem;
             right: 1rem;
-            background: rgba(15, 23, 42, 0.9);
-            color: #ffffff;
-            backdrop-filter: blur(8px);
+            background: #fcfaf5;
+            color: #1a3300;
+            border: 1px solid #1a3300;
             font-size: 0.75rem;
             font-weight: 600;
             padding: 0.35rem 0.85rem;
             border-radius: 9999px;
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(26, 51, 0, 0.1);
             z-index: 900;
             display: inline-flex;
             align-items: center;
@@ -79,8 +83,8 @@
             transition: all 0.2s ease;
         }
         .portfoli-badge-fixed:hover {
-            background: #4f46e5;
-            color: #ffffff;
+            background: #ffe95c;
+            color: #1a3300;
             transform: translateY(-2px);
         }
     </style>
@@ -88,14 +92,14 @@
 <body class="{% block body_class %}{% endblock %}">
 
     {% if is_preview %}
-    <!-- Floating Preview Control Bar -->
+    <!-- Floating Preview Control Bar (Creative Agency Sketchbook style) -->
     <div class="preview-topbar">
         <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
             <div class="d-flex align-items-center gap-2">
-                <span class="badge bg-warning text-dark fw-bold">
+                <span class="badge" style="background-color: #ffe95c; color: #1a3300; border: 1px solid #1a3300; font-weight: 700; border-radius: 6px;">
                     <i class="bi bi-eye-fill me-1"></i> Preview Mode
                 </span>
-                <span class="small text-light d-none d-md-inline">Switch templates to see how your portfolio looks:</span>
+                <span class="small d-none d-md-inline" style="color: #1a3300; font-family: 'Inter', sans-serif;">Switch styles on the fly:</span>
             </div>
 
             <!-- Template Quick Switcher -->
@@ -113,27 +117,27 @@
 
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-primary-custom dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-download me-1"></i> Export Portfolio
+                    <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #1a3300; color: #fcfaf5; border-radius: 6px; font-weight: 500;">
+                        <i class="bi bi-download me-1"></i> Export &darr;
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="border-radius: 8px; border: 1px solid #1a3300; background-color: #fcfaf5;">
                         <li>
-                            <a class="dropdown-item small" href="{% url 'portfolio_export_html' %}">
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_html' %}" style="color: #1a3300;">
                                 <i class="bi bi-filetype-html text-danger me-2"></i> Download HTML (.html)
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item small" href="{% url 'portfolio_print' %}" target="_blank">
+                            <a class="dropdown-item small" href="{% url 'portfolio_print' %}" target="_blank" style="color: #1a3300;">
                                 <i class="bi bi-printer text-success me-2"></i> Print / Save as PDF
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item small" href="{% url 'portfolio_export_markdown' %}">
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_markdown' %}" style="color: #1a3300;">
                                 <i class="bi bi-markdown text-primary me-2"></i> Download Markdown (.md)
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item small" href="{% url 'portfolio_export_json' %}">
+                            <a class="dropdown-item small" href="{% url 'portfolio_export_json' %}" style="color: #1a3300;">
                                 <i class="bi bi-braces text-warning me-2"></i> Export Data (.json)
                             </a>
                         </li>
@@ -143,13 +147,13 @@
                 <form method="post" action="{% url 'portfolio_template_select' %}" class="d-inline m-0">
                     {% csrf_token %}
                     <input type="hidden" name="template" value="{{ active_template }}">
-                    <button type="submit" class="btn btn-sm btn-outline-light" title="Set this template as default">
-                        <i class="bi bi-check2"></i> Set as Default
+                    <button type="submit" class="btn btn-sm btn-outline-dark" style="border-radius: 6px;" title="Set this template as default">
+                        <i class="bi bi-check2"></i> Set Default
                     </button>
                 </form>
 
-                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-light">
-                    <i class="bi bi-arrow-left"></i> Exit to Dashboard
+                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-dark" style="border-radius: 6px;">
+                    &larr; Dashboard
                 </a>
             </div>
         </div>
@@ -159,11 +163,11 @@
     <div class="owner-draft-banner text-center">
         <div class="container d-flex justify-content-between align-items-center">
             <span>
-                <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
-                <strong>Draft Mode:</strong> Your portfolio is currently unpublished and only visible to you.
+                <i class="bi bi-info-circle-fill me-1"></i>
+                <strong>Draft Mode:</strong> Your portfolio is currently in private draft mode.
             </span>
-            <a href="{% url 'dashboard' %}" class="btn btn-xs btn-outline-dark fw-semibold" style="font-size: 0.78rem;">
-                Go to Dashboard to Publish
+            <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-dark fw-semibold" style="font-size: 0.78rem; border-radius: 6px;">
+                Dashboard
             </a>
         </div>
     </div>
@@ -175,7 +179,7 @@
     <!-- Subtle Floating Badge on Public View -->
     {% if not is_preview %}
         <a href="{% url 'landing' %}" target="_blank" class="portfoli-badge-fixed">
-            <i class="bi bi-briefcase-fill text-primary"></i> Made with portfoli.io
+            <span class="brand-monogram-square" style="width: 20px; height: 20px; font-size: 0.75rem; border-radius: 4px;">po</span> Made with portfoli.io
         </a>
     {% endif %}
 

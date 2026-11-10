@@ -4,101 +4,92 @@
 {% block title %}Sign In — portfoli.io{% endblock %}
 
 {% block content %}
-<section class="py-5" style="min-height: calc(100vh - 200px); display: flex; align-items: center; background-color: var(--bg-light);">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="card border-0 shadow-lg" style="border-radius: var(--radius-lg); overflow: hidden;">
-                    <div class="card-body p-4 p-sm-5">
-                        <!-- Header -->
-                        <div class="text-center mb-4">
-                            <div class="brand-icon-box mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.35rem;">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <h3 class="fw-bold text-dark mb-1">Welcome Back</h3>
-                            <p class="text-muted small">Sign in to edit and publish your portfolio</p>
-                        </div>
-
-                        <!-- Non-field error alert -->
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger py-2 small" role="alert">
-                                {% for error in form.non_field_errors %}
-                                    <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        <!-- Login Form -->
-                        <form method="post" action="{% url 'login' %}" novalidate>
-                            {% csrf_token %}
-                            {% if next %}
-                                <input type="hidden" name="next" value="{{ next }}">
-                            {% endif %}
-
-                            <!-- Username Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold small text-dark">
-                                    Username
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted">
-                                        <i class="bi bi-person"></i>
-                                    </span>
-                                    {{ form.username }}
-                                </div>
-                                {% if form.username.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.username.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Password Field -->
-                            <div class="mb-4">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold small text-dark mb-0">
-                                        Password
-                                    </label>
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
-                                    {{ form.password }}
-                                </div>
-                                {% if form.password.errors %}
-                                    <div class="text-danger small mt-1">
-                                        {{ form.password.errors.0 }}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary-custom w-100 py-2 fw-semibold">
-                                Sign In <i class="bi bi-box-arrow-in-right ms-1"></i>
-                            </button>
-                        </form>
-
-                        <!-- Footer Links -->
-                        <div class="text-center mt-4 pt-3 border-top">
-                            <p class="small text-muted mb-0">
-                                Don't have an account yet? 
-                                <a href="{% url 'register' %}" class="fw-semibold text-primary text-decoration-none">
-                                    Create Free Portfolio
-                                </a>
-                            </p>
-                        </div>
-                    </div>
+<section class="py-5" style="min-height: calc(100vh - 200px); display: flex; align-items: center; background-color: var(--color-cream-paper);">
+    <div class="container" style="max-width: 520px;">
+        <div class="card-sketch p-4 p-sm-5">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="brand-monogram-square mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                    po
                 </div>
-
-                <div class="text-center mt-3">
-                    <a href="{% url 'landing' %}" class="small text-muted text-decoration-none">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Homepage
-                    </a>
-                </div>
+                <h3 class="font-display h4 mb-1">Welcome Back</h3>
+                <p class="text-muted small">Sign in to manage and export your portfolio</p>
             </div>
+
+            <!-- Non-field error alert -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2 small mb-3" role="alert">
+                    {% for error in form.non_field_errors %}
+                        <div><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="post" action="{% url 'login' %}" novalidate>
+                {% csrf_token %}
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
+
+                <!-- Username Field -->
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">
+                        Username
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-person"></i>
+                        </span>
+                        {{ form.username }}
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ form.username.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-4">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">
+                        Password
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-lock"></i>
+                        </span>
+                        {{ form.password }}
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ form.password.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary-custom w-100 py-2">
+                    Sign In &rarr;
+                </button>
+            </form>
+
+            <!-- Footer Links -->
+            <div class="text-center mt-4 pt-3 border-top border-secondary border-opacity-25">
+                <p class="small text-muted mb-0">
+                    Don't have an account yet? 
+                    <a href="{% url 'register' %}" class="fw-semibold">
+                        Create Free Portfolio
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'landing' %}" class="small text-muted text-decoration-none">
+                &larr; Back to Homepage
+            </a>
         </div>
     </div>
 </section>
 {% endblock %}
-

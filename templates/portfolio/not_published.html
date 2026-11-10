@@ -4,48 +4,43 @@
 {% block title %}Portfolio Unpublished — portfoli.io{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light" style="min-height: calc(100vh - 200px); display: flex; align-items: center;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="card border-0 shadow-lg text-center p-4 p-sm-5" style="border-radius: var(--radius-lg);">
-                    <div class="rounded-circle bg-warning-subtle text-warning-emphasis mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; font-size: 2rem;">
-                        <i class="bi bi-eye-slash-fill"></i>
-                    </div>
+<section class="py-5" style="min-height: calc(100vh - 200px); display: flex; align-items: center; background-color: var(--color-cream-paper);">
+    <div class="container" style="max-width: 560px;">
+        <div class="card-sketch text-center p-4 p-sm-5">
+            <div class="brand-monogram-square mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem; background-color: var(--color-highlighter-yellow);">
+                <i class="bi bi-eye-slash text-dark"></i>
+            </div>
 
-                    <h3 class="fw-bold text-dark mb-2">Portfolio is in Draft Mode</h3>
-                    <p class="text-muted small mb-3">
-                        The portfolio at <code class="fw-bold text-primary">/u/{{ slug }}/</code> has not been published yet or is currently set to private.
-                    </p>
+            <h3 class="font-display h4 mb-2">Portfolio is in Draft Mode</h3>
+            <p class="text-muted small mb-3">
+                The portfolio at <code class="font-mono text-dark fw-bold">/u/{{ slug }}/</code> has not been published yet or is currently set to private.
+            </p>
 
-                    <div class="p-3 bg-light rounded text-start small mb-4 border">
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <span class="fw-semibold text-dark">Are you the owner of this portfolio?</span>
-                        </div>
-                        <p class="text-muted mb-0 small">
-                            Sign in to your account and turn on <strong>Publish Now</strong> in your dashboard to make your portfolio visible to recruiters and the world.
-                        </p>
-                    </div>
-
-                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
-                        <a href="{% url 'landing' %}" class="btn btn-outline-custom">
-                            <i class="bi bi-house me-1"></i> Home
-                        </a>
-                        {% if user.is_authenticated and user == portfolio.user %}
-                            <a href="{% url 'dashboard' %}" class="btn btn-primary-custom">
-                                <i class="bi bi-speedometer2 me-1"></i> Open Dashboard
-                            </a>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="btn btn-primary-custom">
-                                <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Publish
-                            </a>
-                        {% endif %}
-                    </div>
+            <div class="p-3 rounded-2 text-start small mb-4 border border-dark" style="background-color: #f7f4ec;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <i class="bi bi-info-circle text-dark"></i>
+                    <strong class="text-dark">Are you the owner of this portfolio?</strong>
                 </div>
+                <p class="text-muted mb-0 small" style="line-height: 1.5;">
+                    Sign in to your account and turn on publishing in your dashboard to make your portfolio publicly accessible.
+                </p>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+                <a href="{% url 'landing' %}" class="btn btn-outline-custom">
+                    &larr; Home
+                </a>
+                {% if user.is_authenticated and user == portfolio.user %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary-custom">
+                        Open Dashboard &rarr;
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary-custom">
+                        Sign In to Publish &rarr;
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
 {% endblock %}
-

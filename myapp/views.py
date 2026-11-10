@@ -94,16 +94,19 @@ def landing_page(request):
     steps = [
         {
             'number': '01',
+            'step': '01',
             'title': 'Create Your Profile',
             'description': 'Register an account and input your bio, education records, technical skills, and featured projects.',
         },
         {
             'number': '02',
+            'step': '02',
             'title': 'Pick a Template Style',
             'description': 'Select from Minimal, Modern Developer, or Creative showcase layouts tailored to your career goals.',
         },
         {
             'number': '03',
+            'step': '03',
             'title': 'Export & Share Anywhere',
             'description': 'Download as a standalone HTML website, print to PDF, or export as clean Markdown and JSON files.',
         },

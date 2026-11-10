@@ -4,27 +4,22 @@
 {% block title %}Education History — portfoli.io{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light" style="min-height: calc(100vh - 200px);">
-    <div class="container">
-        <!-- Breadcrumb & Header -->
+<section class="py-5" style="min-height: calc(100vh - 200px); background-color: var(--color-cream-paper);">
+    <div class="container" style="max-width: 1140px;">
+        <!-- Header -->
         <div class="mb-4">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-2 small">
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Education</li>
-                </ol>
-            </nav>
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom border-secondary border-opacity-25">
                 <div>
-                    <h2 class="fw-bold text-dark mb-1">Education History</h2>
-                    <p class="text-muted mb-0">Manage degrees, colleges, certifications, and academic achievements.</p>
+                    <span class="section-eyebrow-sketch mb-2">Academic Journey</span>
+                    <h2 class="font-display h3 mb-1">Education History</h2>
+                    <p class="text-muted small mb-0">Manage degrees, colleges, certifications, and academic achievements.</p>
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{% url 'dashboard' %}" class="btn btn-outline-custom">
-                        <i class="bi bi-arrow-left me-1"></i> Dashboard
+                        &larr; Dashboard
                     </a>
                     <a href="{% url 'education_create' %}" class="btn btn-primary-custom">
-                        <i class="bi bi-plus-circle me-1"></i> Add Education
+                        <i class="bi bi-plus-lg me-1"></i> Add Education &rarr;
                     </a>
                 </div>
             </div>
@@ -34,58 +29,42 @@
             <div class="row g-4">
                 {% for edu in educations %}
                 <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100" style="border-radius: var(--radius-lg); transition: all 0.25s ease;">
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 fw-semibold small">
-                                        <i class="bi bi-calendar3 me-1"></i>
-                                        {% if edu.start_year %}{{ edu.start_year }}{% endif %}
-                                        –
-                                        {% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}
-                                    </span>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                                            <li>
-                                                <a class="dropdown-item" href="{% url 'education_edit' edu.pk %}">
-                                                    <i class="bi bi-pencil text-primary me-2"></i> Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item text-danger" href="{% url 'education_delete' edu.pk %}">
-                                                    <i class="bi bi-trash me-2"></i> Delete
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    <div class="card-sketch h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge-tag badge-mint small font-mono">
+                                    <i class="bi bi-calendar3 me-1"></i>
+                                    {% if edu.start_year %}{{ edu.start_year }}{% endif %}
+                                    &ndash;
+                                    {% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}
+                                </span>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'education_edit' edu.pk %}" class="btn btn-sm btn-outline-custom py-1 px-2" style="font-size: 0.75rem;">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <a href="{% url 'education_delete' edu.pk %}" class="btn btn-sm btn-outline-custom py-1 px-2 text-danger border-danger" style="font-size: 0.75rem;">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </div>
+                            </div>
 
-                                <h5 class="fw-bold text-dark mb-1">{{ edu.degree }}</h5>
-                                <h6 class="text-muted mb-2">
-                                    <i class="bi bi-mortarboard-fill text-primary me-1"></i> {{ edu.institution }}
-                                    {% if edu.field_of_study %}
-                                        <span class="text-secondary">· {{ edu.field_of_study }}</span>
-                                    {% endif %}
-                                </h6>
-
-                                {% if edu.description %}
-                                    <p class="text-muted small mb-0 mt-3 p-3 bg-light rounded">
-                                        {{ edu.description }}
-                                    </p>
+                            <h4 class="font-display h5 mb-1">{{ edu.degree }}</h4>
+                            <h6 class="text-muted small font-mono mb-2">
+                                <i class="bi bi-building me-1 text-dark"></i> {{ edu.institution }}
+                                {% if edu.field_of_study %}
+                                    <span class="text-dark">&bull; {{ edu.field_of_study }}</span>
                                 {% endif %}
-                            </div>
+                            </h6>
 
-                            <div class="d-flex justify-content-end gap-2 pt-3 mt-3 border-top">
-                                <a href="{% url 'education_edit' edu.pk %}" class="btn btn-sm btn-outline-custom">
-                                    <i class="bi bi-pencil me-1"></i> Edit
-                                </a>
-                                <a href="{% url 'education_delete' edu.pk %}" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash me-1"></i> Delete
-                                </a>
-                            </div>
+                            {% if edu.description %}
+                                <p class="small text-muted mb-0 mt-3 p-3 rounded-2 border border-secondary border-opacity-25" style="background-color: #f7f4ec; line-height: 1.55;">
+                                    {{ edu.description }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="pt-3 border-top border-secondary border-opacity-25 mt-3 text-end font-mono small text-muted">
+                            Record ID #{{ edu.pk }}
                         </div>
                     </div>
                 </div>
@@ -93,22 +72,17 @@
             </div>
         {% else %}
             <!-- Empty State -->
-            <div class="card border-0 shadow-sm text-center py-5" style="border-radius: var(--radius-lg);">
-                <div class="card-body p-5">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 64px; height: 64px; font-size: 2rem;">
-                        <i class="bi bi-mortarboard"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2">No Education Records Yet</h4>
-                    <p class="text-muted mx-auto mb-4" style="max-width: 500px;">
-                        Adding your academic background highlights your foundational knowledge, degrees, and specialization to recruiters.
-                    </p>
-                    <a href="{% url 'education_create' %}" class="btn btn-primary-custom px-4 py-2">
-                        <i class="bi bi-plus-circle me-1"></i> Add Your First Education Record
-                    </a>
+            <div class="card-sketch text-center py-5">
+                <div class="brand-monogram-square mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                    <i class="bi bi-mortarboard"></i>
                 </div>
+                <h4 class="font-display h5 mb-1">No Academic Records Yet</h4>
+                <p class="text-muted small mb-4">Add your degrees, bootcamps, and universities to show in your portfolio timeline.</p>
+                <a href="{% url 'education_create' %}" class="btn btn-primary-custom">
+                    Add Education Record &rarr;
+                </a>
             </div>
         {% endif %}
     </div>
 </section>
 {% endblock %}
-

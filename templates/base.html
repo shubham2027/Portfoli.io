@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}portfoli.io — Portfolio Generator{% endblock %}</title>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Bricolage Grotesque (Headlines), Inter (Functional/Body), Roboto Mono (Metadata) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <!-- Bootstrap 5.3.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -17,69 +17,70 @@
     <!-- Bootstrap Icons 1.11.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom Theme CSS: Say Briefly (Creative Agency Sketchbook on Cream Paper) -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- Professional Navigation Bar -->
-    <nav class="navbar navbar-expand-lg sticky-top custom-navbar">
-        <div class="container">
-            <a class="brand-logo" href="{% url 'landing' %}">
-                <span class="brand-icon-box">
-                    <i class="bi bi-briefcase-fill"></i>
-                </span>
-                <span>portfoli<span class="brand-dot">.io</span></span>
-            </a>
+    <!-- Floating Pill Navigation Bar on Cream Paper -->
+    <header class="custom-navbar-container">
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="container-fluid px-2">
+                <!-- Two-Part Brand Logo Lockup -->
+                <a class="brand-logo" href="{% url 'landing' %}">
+                    <span class="brand-monogram-square">po</span>
+                    <span class="brand-text">portfoli<span class="brand-dot">.io</span></span>
+                </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list fs-2 text-dark"></i>
-            </button>
+                <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list fs-2 text-dark"></i>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#templates">Templates</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#how-it-works">How It Works</a>
-                    </li>
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'landing' %}#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'landing' %}#templates">Templates</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'landing' %}#how-it-works">How It Works</a>
+                        </li>
+                    </ul>
 
-                <div class="d-flex align-items-center gap-2">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'dashboard' %}" class="btn btn-primary-custom">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                        <form method="post" action="{% url 'logout' %}" class="d-inline m-0">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-custom">
-                                <i class="bi bi-box-arrow-right"></i> Log out
-                            </button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-outline-custom">
-                            Sign In
-                        </a>
-                        <a href="{% url 'register' %}" class="btn btn-primary-custom">
-                            Get Started Free <i class="bi bi-arrow-right"></i>
-                        </a>
-                    {% endif %}
+                    <div class="d-flex align-items-center gap-2">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'dashboard' %}" class="btn btn-primary-custom">
+                                <i class="bi bi-speedometer2"></i> Dashboard &rarr;
+                            </a>
+                            <form method="post" action="{% url 'logout' %}" class="d-inline m-0">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-custom">
+                                    <i class="bi bi-box-arrow-right"></i> Log out
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-outline-custom">
+                                Sign In
+                            </a>
+                            <a href="{% url 'register' %}" class="btn btn-primary-custom">
+                                Get Started Free &rarr;
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Global Messages / Alerts -->
     {% if messages %}
-    <div class="container mt-3">
+    <div class="container mt-2">
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -93,26 +94,24 @@
         {% endblock %}
     </main>
 
-    <!-- Professional Footer -->
+    <!-- Sketchbook Footer -->
     <footer class="custom-footer">
-        <div class="container">
+        <div class="container" style="max-width: 1140px;">
             <div class="row g-4 justify-content-between">
                 <div class="col-lg-4 col-md-6">
                     <a class="brand-logo mb-3" href="{% url 'landing' %}">
-                        <span class="brand-icon-box">
-                            <i class="bi bi-briefcase-fill"></i>
-                        </span>
-                        <span>portfoli<span class="brand-dot">.io</span></span>
+                        <span class="brand-monogram-square">po</span>
+                        <span class="brand-text">portfoli<span class="brand-dot">.io</span></span>
                     </a>
-                    <p class="footer-brand-desc">
-                        The simple, functional portfolio generator. Build a recruiter-ready online presence in minutes without writing a single line of code.
+                    <p class="text-muted small mb-3" style="max-width: 320px;">
+                        The creative sketchbook for your professional presence. Build, preview, and export a recruiter-ready portfolio in minutes without writing code.
                     </p>
-                    <div class="d-flex gap-3 text-muted fs-5">
-                        <span class="badge bg-light text-dark border px-3 py-2 fw-medium">
-                            <i class="bi bi-shield-check text-success me-1"></i> Django Powered
+                    <div class="d-flex gap-2">
+                        <span class="badge-tag mono-tag">
+                            <i class="bi bi-check2"></i> Django 6.x
                         </span>
-                        <span class="badge bg-light text-dark border px-3 py-2 fw-medium">
-                            <i class="bi bi-bootstrap-fill text-primary me-1"></i> Bootstrap 5
+                        <span class="badge-tag mono-tag">
+                            <i class="bi bi-check2"></i> Offline Exports
                         </span>
                     </div>
                 </div>
@@ -132,32 +131,32 @@
                             <li><a href="{% url 'login' %}">Sign In</a></li>
                             <li><a href="{% url 'register' %}">Register</a></li>
                         {% endif %}
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="{% url 'landing' %}#features">Features</a></li>
+                        <li><a href="{% url 'landing' %}#how-it-works">How It Works</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-2 col-md-3 col-6">
                     <h6 class="footer-heading">Templates</h6>
                     <ul class="footer-links">
-                        <li><a href="#templates">Minimal Professional</a></li>
-                        <li><a href="#templates">Modern Developer</a></li>
-                        <li><a href="#templates">Creative Showcase</a></li>
+                        <li><a href="{% url 'landing' %}#templates">Minimal Professional</a></li>
+                        <li><a href="{% url 'landing' %}#templates">Modern Developer</a></li>
+                        <li><a href="{% url 'landing' %}#templates">Creative Showcase</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <h6 class="footer-heading">Get Started</h6>
                     <p class="text-muted small mb-3">
-                        Join students and professionals showcasing their talent worldwide.
+                        Join students and developers crafting their portfolios with portfoli.io.
                     </p>
                     {% if user.is_authenticated %}
                         <a href="{% url 'dashboard' %}" class="btn btn-primary-custom w-100">
-                            <i class="bi bi-speedometer2 me-1"></i> Go to Dashboard
+                            Go to Dashboard &rarr;
                         </a>
                     {% else %}
                         <a href="{% url 'register' %}" class="btn btn-primary-custom w-100">
-                            Create Free Portfolio
+                            Create Free Portfolio &rarr;
                         </a>
                     {% endif %}
                 </div>
@@ -165,10 +164,10 @@
 
             <div class="footer-bottom d-flex flex-column flex-sm-row justify-content-between align-items-center">
                 <p class="mb-2 mb-sm-0">
-                    &copy; {% now "Y" %} portfoli.io. All rights reserved.
+                    &copy; {% now "Y" %} portfoli.io &bull; Creative Agency Sketchbook Edition
                 </p>
-                <p class="mb-0 text-muted small">
-                    Built with Python, Django, SQLite & Bootstrap 5
+                <p class="mb-0 text-muted small font-mono">
+                    Cream Paper &bull; Forest Ink &bull; Highlighter Yellow
                 </p>
             </div>
         </div>
@@ -183,4 +182,3 @@
     {% block extra_js %}{% endblock %}
 </body>
 </html>
-

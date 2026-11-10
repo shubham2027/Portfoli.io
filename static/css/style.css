@@ -1,687 +1,732 @@
 /* ==========================================================================
-   portfoli.io - Custom Styling
-   Modern, minimal, clean design system using Bootstrap 5 + custom enhancements
+   portfoli.io — Style System
+   Theme: Say Briefly — Creative Agency Sketchbook on Cream Paper
    ========================================================================== */
 
 :root {
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-light: #eef2ff;
-    --primary-dark: #3730a3;
-    
-    --secondary-color: #0ea5e9;
-    --accent-color: #10b981;
-    
-    --dark-text: #0f172a;
-    --body-text: #334155;
-    --muted-text: #64748b;
-    
-    --bg-light: #f8fafc;
-    --card-bg: #ffffff;
-    --border-color: #e2e8f0;
-    --border-hover: #cbd5e1;
-    
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-    --shadow-xl: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
-    
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
-    --radius-xl: 24px;
+    /* ----------------------------------------------------------------------
+       Colors
+       ---------------------------------------------------------------------- */
+    --color-forest-ink: #1a3300;
+    --color-highlighter-yellow: #ffe95c;
+    --color-cream-paper: #fcfaf5;
+    --color-pencil-gray: #b6b6b6;
+    --color-whisper-gray: #f1f1f1;
+    --color-sticky-note-teal: #a8e5e5;
+    --color-sticky-note-mint: #d5f5c2;
+    --color-sticky-note-blush: #f6d0ff;
+    --color-terracotta: #cb5521;
+    --color-white: #ffffff;
+
+    /* Very light green wash for cards/boxes to enhance visual appeal & eliminate paleness */
+    --color-mint-wash: #edf6ea;
+    --color-mint-wash-subtle: #f4f9f1;
+    --color-mint-wash-hover: #e2f0dd;
+    --color-mint-wash-banner: #e4f2de;
+
+    /* Semantic aliases */
+    --primary-color: var(--color-forest-ink);
+    --primary-hover: #122400;
+    --primary-light: var(--color-sticky-note-mint);
+    --accent-color: var(--color-highlighter-yellow);
+    --bg-page: var(--color-cream-paper);
+    --bg-card: var(--color-mint-wash);
+    --border-color: var(--color-pencil-gray);
+    --border-dark: var(--color-forest-ink);
+    --text-primary: var(--color-forest-ink);
+    --text-muted: #4e6041;
+    --text-light: #6a7c5c;
+
+    /* ----------------------------------------------------------------------
+       Typography — Families & Scales
+       ---------------------------------------------------------------------- */
+    --font-bricolage-grotesque: 'Bricolage Grotesque', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-roboto-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Scale */
+    --text-micro: 11px;
+    --text-caption: 14px;
+    --text-body-sm: 16px;
+    --text-body: 18px;
+    --text-body-lg: 20px;
+    --text-subheading: 28px;
+    --text-heading-sm: 40px;
+    --text-heading: 55px;
+    --text-heading-lg: 66px;
+    --text-display: 76px;
+
+    /* ----------------------------------------------------------------------
+       Spacing Scale
+       ---------------------------------------------------------------------- */
+    --spacing-8: 8px;
+    --spacing-16: 16px;
+    --spacing-24: 24px;
+    --spacing-32: 32px;
+    --spacing-40: 40px;
+    --spacing-48: 48px;
+    --spacing-56: 56px;
+    --spacing-64: 64px;
+    --spacing-80: 80px;
+
+    /* ----------------------------------------------------------------------
+       Border Radius (Strict)
+       ---------------------------------------------------------------------- */
+    --radius-buttons: 6px;
+    --radius-cards: 14px;
+    --radius-nav: 16px;
+    --radius-tags: 9999px;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 14px;
+
+    /* ----------------------------------------------------------------------
+       Shadows (Minimal, No Heavy Blur)
+       ---------------------------------------------------------------------- */
+    --shadow-subtle: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    --shadow-subtle-2: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+    --shadow-nav-glow: 0 4px 20px -2px rgba(26, 51, 0, 0.06);
+}
+
+/* ==========================================================================
+   Global Reset & Base
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: var(--body-text);
-    background-color: #ffffff;
+    font-family: var(--font-inter);
+    color: var(--color-forest-ink);
+    background-color: var(--color-cream-paper);
     line-height: 1.6;
-    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--dark-text);
+/* Headings */
+h1, h2, h3, h4, h5, h6, .display-heading {
+    color: var(--color-forest-ink);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    line-height: 1.15;
+}
+
+.font-display {
+    font-family: var(--font-bricolage-grotesque) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+    color: var(--color-forest-ink);
+}
+
+.font-mono {
+    font-family: var(--font-roboto-mono) !important;
+}
+
+/* Marker Highlight Pen Effect */
+.highlight-yellow {
+    background-color: var(--color-highlighter-yellow);
+    color: var(--color-forest-ink);
+    padding: 0.08em 0.3em;
+    border-radius: 3px;
+    display: inline-block;
+    line-height: 1.05;
+    transform: rotate(-0.5deg);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+p {
+    color: var(--color-forest-ink);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+a {
+    color: var(--color-forest-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.15s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    opacity: 0.85;
 }
 
 /* ==========================================================================
-   Navbar Styling
+   Navigation Bar (Floating Pill on Cream Paper)
    ========================================================================== */
+.custom-navbar-container {
+    padding: 1.25rem 1rem 0.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
 .custom-navbar {
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.85rem 0;
-    transition: all 0.3s ease;
+    max-width: 1160px;
+    margin: 0 auto;
+    background-color: var(--color-cream-paper);
+    border: 1px solid var(--color-pencil-gray);
+    border-radius: var(--radius-nav);
+    padding: 0.65rem 1.25rem;
+    box-shadow: var(--shadow-nav-glow);
+    transition: all 0.25s ease;
 }
 
 .custom-navbar.scrolled {
-    box-shadow: var(--shadow-md);
+    border-color: var(--color-forest-ink);
+    box-shadow: 0 4px 18px rgba(26, 51, 0, 0.09);
 }
 
+/* Two-Part Brand Logo Lockup */
 .brand-logo {
-    font-size: 1.45rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--dark-text);
-    text-decoration: none;
+    text-decoration: none !important;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
-.brand-icon-box {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--primary-color), #6366f1);
-    color: #ffffff;
-    border-radius: 10px;
+.brand-monogram-square {
+    width: 38px;
+    height: 38px;
+    background-color: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    font-family: var(--font-bricolage-grotesque);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-forest-ink);
+    line-height: 1;
+    transform: rotate(-1.5deg);
+    transition: transform 0.2s ease;
+}
+
+.brand-logo:hover .brand-monogram-square {
+    transform: rotate(1deg) scale(1.05);
+}
+
+.brand-text {
+    font-family: var(--font-inter);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-forest-ink);
+    letter-spacing: -0.02em;
 }
 
 .brand-dot {
-    color: var(--primary-color);
+    color: var(--color-forest-ink);
+    opacity: 0.6;
 }
 
 .nav-link {
+    font-family: var(--font-inter);
     font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--body-text) !important;
-    padding: 0.5rem 0.9rem !important;
-    border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
+    font-size: 0.92rem;
+    color: var(--color-forest-ink) !important;
+    text-decoration: none !important;
+    padding: 0.4rem 0.85rem !important;
+    border-radius: var(--radius-buttons);
+    transition: all 0.15s ease;
 }
 
 .nav-link:hover {
-    color: var(--primary-color) !important;
-    background-color: var(--primary-light);
+    background-color: rgba(26, 51, 0, 0.05);
+    color: var(--color-forest-ink) !important;
 }
 
 /* ==========================================================================
-   Button Styling
+   Buttons (6px radius strictly)
    ========================================================================== */
-.btn-primary-custom {
-    background-color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.65rem 1.4rem;
-    border-radius: var(--radius-md);
-    transition: all 0.25s ease;
+.btn {
+    border-radius: var(--radius-buttons) !important;
+    font-family: var(--font-inter);
+    font-weight: 500;
+    transition: all 0.15s ease;
+    text-decoration: none !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    gap: 0.45rem;
+}
+
+/* Primary CTA Button (Filled Forest Ink, Cream Paper Text) */
+.btn-primary-custom {
+    background-color: var(--color-forest-ink);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-cream-paper) !important;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-subtle);
 }
 
 .btn-primary-custom:hover {
     background-color: var(--primary-hover);
     border-color: var(--primary-hover);
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    color: var(--color-cream-paper) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-subtle-2);
 }
 
+/* Outline Nav Button (Transparent, 1px Forest Ink Border) */
 .btn-outline-custom {
     background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--dark-text);
-    font-weight: 600;
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink) !important;
+    padding: 0.65rem 1.3rem;
     font-size: 0.95rem;
-    padding: 0.65rem 1.4rem;
-    border-radius: var(--radius-md);
-    transition: all 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
 }
 
 .btn-outline-custom:hover {
-    background-color: #f1f5f9;
-    border-color: var(--border-hover);
-    color: var(--dark-text);
+    background-color: rgba(26, 51, 0, 0.06);
+    color: var(--color-forest-ink) !important;
+    transform: translateY(-1px);
+}
+
+/* Large Hero CTA Button */
+.btn-lg-custom {
+    padding: 0.95rem 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* Pastel Accent Buttons (Sticky Note fills) */
+.btn-pastel-mint {
+    background-color: var(--color-sticky-note-mint);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink) !important;
+    padding: 0.6rem 1.25rem;
+    font-weight: 600;
+}
+.btn-pastel-mint:hover {
+    background-color: #c4ebb0;
+    transform: translateY(-1px);
+}
+
+.btn-pastel-teal {
+    background-color: var(--color-sticky-note-teal);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink) !important;
+    padding: 0.6rem 1.25rem;
+    font-weight: 600;
+}
+.btn-pastel-teal:hover {
+    background-color: #92d6d6;
+    transform: translateY(-1px);
+}
+
+.btn-pastel-blush {
+    background-color: var(--color-sticky-note-blush);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink) !important;
+    padding: 0.6rem 1.25rem;
+    font-weight: 600;
+}
+.btn-pastel-blush:hover {
+    background-color: #eec1f8;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Badges, Tags & Micro-labels
+   ========================================================================== */
+.tagline-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.85rem;
+    background-color: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-buttons);
+    font-family: var(--font-inter);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-subtle);
+}
+
+.badge-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-tags);
+    border: 1px solid var(--color-forest-ink);
+    background-color: var(--color-cream-paper);
+    color: var(--color-forest-ink);
+}
+
+.badge-mint {
+    background-color: var(--color-sticky-note-mint);
+    border-color: var(--color-forest-ink);
+    color: var(--color-forest-ink);
+}
+
+.badge-yellow {
+    background-color: var(--color-highlighter-yellow);
+    border-color: var(--color-forest-ink);
+    color: var(--color-forest-ink);
+}
+
+.badge-teal {
+    background-color: var(--color-sticky-note-teal);
+    border-color: var(--color-forest-ink);
+    color: var(--color-forest-ink);
+}
+
+.badge-blush {
+    background-color: var(--color-sticky-note-blush);
+    border-color: var(--color-forest-ink);
+    color: var(--color-forest-ink);
+}
+
+.mono-tag {
+    font-family: var(--font-roboto-mono);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-forest-ink);
+    background-color: #ffffff;
+    color: var(--color-forest-ink);
+}
+
+/* ==========================================================================
+   Cards (Sketchbook & Sticky Note Surfaces)
+   ========================================================================== */
+.card-sketch {
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 2px 3px 0px rgba(26, 51, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-sketch:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 5px 0px rgba(26, 51, 0, 0.08);
+}
+
+/* Sticky Note Surfaces (Flat color fills, 1px forest ink border, no blur shadow) */
+.card-sticky-mint {
+    background-color: var(--color-sticky-note-mint);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 1.5rem;
+    color: var(--color-forest-ink);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease;
+}
+.card-sticky-mint:hover {
     transform: translateY(-2px);
 }
 
-.btn-lg-custom {
-    padding: 0.85rem 1.75rem;
-    font-size: 1.05rem;
-    border-radius: var(--radius-md);
+.card-sticky-teal {
+    background-color: var(--color-sticky-note-teal);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 1.5rem;
+    color: var(--color-forest-ink);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease;
+}
+.card-sticky-teal:hover {
+    transform: translateY(-2px);
+}
+
+.card-sticky-blush {
+    background-color: var(--color-sticky-note-blush);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 1.5rem;
+    color: var(--color-forest-ink);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s ease;
+}
+.card-sticky-blush:hover {
+    transform: translateY(-2px);
+}
+
+.card-sticky-cream {
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 1.5rem;
+    box-shadow: 2px 3px 0px rgba(26, 51, 0, 0.05);
 }
 
 /* ==========================================================================
    Hero Section
    ========================================================================== */
 .hero-section {
-    padding: 5rem 0 4rem;
-    background: radial-gradient(circle at 50% 0%, rgba(238, 242, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+    padding: 4.5rem 0 3.5rem;
     position: relative;
 }
 
-.hero-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    background-color: var(--primary-light);
-    border: 1px solid #c7d2fe;
-    color: var(--primary-dark);
-    font-size: 0.85rem;
-    font-weight: 600;
-    border-radius: 9999px;
-    margin-bottom: 1.5rem;
-}
-
-.hero-title {
-    font-size: 3.25rem;
+.hero-display-title {
+    font-family: var(--font-bricolage-grotesque);
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
     font-weight: 800;
-    line-height: 1.15;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: var(--color-forest-ink);
     margin-bottom: 1.5rem;
-    color: var(--dark-text);
 }
 
-.hero-title .gradient-text {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero-description {
-    font-size: 1.2rem;
-    color: var(--muted-text);
+.hero-subhead {
+    font-family: var(--font-inter);
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--color-forest-ink);
     max-width: 620px;
     margin-bottom: 2rem;
-    line-height: 1.6;
 }
 
-/* Hero Mockup Preview Card */
-.mockup-window {
-    background: #ffffff;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-xl);
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s ease;
+.reassurance-caption {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.85rem;
 }
 
-.mockup-window:hover {
-    transform: translateY(-4px);
-}
-
-.mockup-header {
-    background: #f8fafc;
-    border-bottom: 1px solid var(--border-color);
-    padding: 0.75rem 1rem;
+/* Backed By Strip */
+.backed-by-strip {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px dashed var(--color-pencil-gray);
 }
 
-.mockup-dots {
+.backed-by-label {
+    font-family: var(--font-inter);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.backed-by-item {
+    font-family: var(--font-roboto-mono);
+    font-size: 0.78rem;
+    color: var(--color-forest-ink);
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-forest-ink);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+/* Hero Mockup Sketch Card */
+.hero-mockup-frame {
+    background-color: #ffffff;
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    box-shadow: 4px 6px 0px rgba(26, 51, 0, 0.08);
+    overflow: hidden;
+}
+
+.hero-mockup-bar {
+    background-color: var(--color-mint-wash);
+    border-bottom: 1px solid var(--color-forest-ink);
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mockup-traffic-dots {
     display: flex;
     gap: 6px;
 }
 
-.mockup-dot {
-    width: 11px;
-    height: 11px;
+.mockup-dot-sketch {
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
+    border: 1px solid var(--color-forest-ink);
 }
 
-.dot-red { background-color: #ef4444; }
-.dot-yellow { background-color: #f59e0b; }
-.dot-green { background-color: #10b981; }
-
-.mockup-address-bar {
-    flex: 1;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 0.2rem 0.75rem;
-    font-size: 0.78rem;
-    color: var(--muted-text);
-    font-family: monospace;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin: 0 1rem;
-}
-
-.mockup-body {
-    padding: 1.75rem;
-    background: #ffffff;
-}
-
-.mockup-profile {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.mockup-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #3b82f6);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.mockup-name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-}
-
-.mockup-title {
-    font-size: 0.9rem;
-    color: var(--muted-text);
-    margin-bottom: 0.3rem;
-}
-
-.mockup-badge-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    background-color: #ecfdf5;
-    color: #059669;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 9999px;
-}
-
-.pulse-dot {
-    width: 6px;
-    height: 6px;
-    background-color: #10b981;
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(0.95); opacity: 0.7; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(0.95); opacity: 0.7; }
-}
-
-.mockup-skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.25rem;
-}
-
-.skill-tag {
+.mockup-file-label {
+    font-family: var(--font-roboto-mono);
     font-size: 0.75rem;
+    color: var(--color-forest-ink);
     font-weight: 500;
-    padding: 0.25rem 0.6rem;
-    background-color: #f1f5f9;
-    color: var(--body-text);
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-}
-
-.mockup-project-mini {
-    background: #f8fafc;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 0.85rem;
 }
 
 /* ==========================================================================
    Section Headers
    ========================================================================== */
-.section-header {
-    margin-bottom: 3.5rem;
-}
-
-.section-badge {
-    display: inline-block;
+.section-eyebrow-sketch {
+    font-family: var(--font-roboto-mono);
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--primary-color);
+    color: var(--color-forest-ink);
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    background-color: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: 4px;
+    margin-bottom: 0.85rem;
+}
+
+.section-title-sketch {
+    font-family: var(--font-bricolage-grotesque);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--color-forest-ink);
+    line-height: 1.1;
     margin-bottom: 0.75rem;
 }
 
-.section-title {
-    font-size: 2.35rem;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-}
-
-.section-subtitle {
+.section-subtitle-sketch {
+    font-family: var(--font-inter);
     font-size: 1.05rem;
-    color: var(--muted-text);
-    max-width: 600px;
-    margin: 0 auto;
+    color: var(--text-muted);
+    max-width: 620px;
 }
 
 /* ==========================================================================
-   Features Section
+   Features, Templates, Steps & CTA Sections
    ========================================================================== */
-.features-section {
-    padding: 5rem 0;
-    background-color: var(--bg-light);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+.features-section, .templates-section, .steps-section {
+    padding: 4.5rem 0;
 }
 
-.feature-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 2rem 1.75rem;
-    height: 100%;
-    transition: all 0.25s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: #c7d2fe;
-}
-
-.feature-icon-box {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    background-color: var(--primary-light);
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.35rem;
-    margin-bottom: 1.25rem;
-}
-
-.feature-card h5 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.65rem;
-}
-
-.feature-card p {
-    color: var(--muted-text);
-    font-size: 0.92rem;
-    margin-bottom: 0;
-    line-height: 1.55;
-}
-
-/* ==========================================================================
-   Templates Section
-   ========================================================================== */
-.templates-section {
-    padding: 5.5rem 0;
-}
-
-.template-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    height: 100%;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.template-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-xl);
-    border-color: #cbd5e1;
-}
-
-.template-preview-header {
-    padding: 1.5rem;
-    background-color: #f8fafc;
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-    min-height: 170px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.template-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 0.25rem 0.65rem;
-    border-radius: 9999px;
-    background: #ffffff;
-    border: 1px solid var(--border-color);
-    color: var(--dark-text);
-}
-
-/* Mini Mockup Visuals for Templates */
-.preview-mini-profile {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-}
-
-.preview-mini-avatar {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #ffffff;
-}
-
-.template-card-body {
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.template-card-body h4 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-}
-
-.template-card-body p {
-    color: var(--muted-text);
-    font-size: 0.92rem;
-    margin-bottom: 1.25rem;
-}
-
-.template-feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.5rem 0;
-}
-
-.template-feature-list li {
-    font-size: 0.88rem;
-    color: var(--body-text);
-    margin-bottom: 0.4rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.template-feature-list li i {
-    color: var(--primary-color);
-}
-
-/* ==========================================================================
-   How It Works Section
-   ========================================================================== */
-.steps-section {
-    padding: 5.5rem 0;
-    background-color: var(--bg-light);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.step-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 2.25rem 1.75rem;
+.step-card-sketch {
+    background-color: var(--color-mint-wash);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: var(--radius-cards);
+    padding: 2rem 1.5rem;
     height: 100%;
     position: relative;
-    transition: all 0.25s ease;
+    box-shadow: 3px 3px 0px rgba(26, 51, 0, 0.06);
 }
 
-.step-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.step-number-badge {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-color), #6366f1);
-    color: #ffffff;
-    font-size: 1.15rem;
+.step-num-sketch {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: var(--color-highlighter-yellow);
+    border: 1px solid var(--color-forest-ink);
+    color: var(--color-forest-ink);
+    font-family: var(--font-bricolage-grotesque);
     font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.25rem;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
-}
-
-.step-card h4 {
     font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-}
-
-.step-card p {
-    color: var(--muted-text);
-    font-size: 0.93rem;
-    margin-bottom: 0;
-}
-
-/* ==========================================================================
-   CTA Banner Section
-   ========================================================================== */
-.cta-banner-section {
-    padding: 5rem 0;
-}
-
-.cta-banner-card {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    border-radius: var(--radius-xl);
-    padding: 3.5rem 3rem;
-    color: #ffffff;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-xl);
-}
-
-.cta-banner-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0) 70%);
-    pointer-events: none;
-}
-
-.cta-banner-card h2 {
-    color: #ffffff;
-    font-size: 2.35rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-}
-
-.cta-banner-card p {
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin-bottom: 2rem;
-}
-
-.btn-white-custom {
-    background-color: #ffffff;
-    color: var(--dark-text);
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    border: none;
+    justify-content: center;
+    margin-bottom: 1.25rem;
 }
 
-.btn-white-custom:hover {
-    background-color: #f1f5f9;
-    color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+.cta-sketch-banner {
+    background-color: var(--color-mint-wash-banner);
+    border: 1px solid var(--color-forest-ink);
+    border-radius: 16px;
+    padding: 3.5rem 2.5rem;
+    box-shadow: 4px 6px 0px rgba(26, 51, 0, 0.08);
 }
 
 /* ==========================================================================
-   Footer
+   Form Controls
+   ========================================================================== */
+.form-control, .form-select {
+    background-color: #ffffff !important;
+    border: 1px solid var(--color-pencil-gray) !important;
+    border-radius: var(--radius-buttons) !important;
+    color: var(--color-forest-ink) !important;
+    font-family: var(--font-inter);
+    padding: 0.65rem 0.95rem;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-forest-ink) !important;
+    box-shadow: 0 0 0 3px rgba(26, 51, 0, 0.12) !important;
+    outline: none;
+}
+
+.form-label {
+    font-family: var(--font-inter);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-forest-ink);
+    margin-bottom: 0.4rem;
+}
+
+.input-group-text {
+    background-color: #f3efe6 !important;
+    border: 1px solid var(--color-pencil-gray) !important;
+    border-radius: var(--radius-buttons) 0 0 var(--radius-buttons) !important;
+    color: var(--color-forest-ink) !important;
+}
+
+/* ==========================================================================
+   Alerts & Notifications
+   ========================================================================== */
+.alert {
+    border-radius: var(--radius-buttons) !important;
+    border: 1px solid var(--color-forest-ink) !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-subtle);
+}
+
+.alert-success {
+    background-color: var(--color-sticky-note-mint) !important;
+    color: var(--color-forest-ink) !important;
+}
+
+.alert-warning {
+    background-color: var(--color-highlighter-yellow) !important;
+    color: var(--color-forest-ink) !important;
+}
+
+.alert-info {
+    background-color: var(--color-sticky-note-teal) !important;
+    color: var(--color-forest-ink) !important;
+}
+
+.alert-danger {
+    background-color: var(--color-sticky-note-blush) !important;
+    color: var(--color-forest-ink) !important;
+}
+
+/* ==========================================================================
+   Footer (Sketchbook Style)
    ========================================================================== */
 .custom-footer {
-    background-color: #ffffff;
-    border-top: 1px solid var(--border-color);
-    padding: 4rem 0 2rem;
-}
-
-.footer-brand-title {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--dark-text);
-    margin-bottom: 0.75rem;
-}
-
-.footer-brand-desc {
-    color: var(--muted-text);
-    font-size: 0.92rem;
-    line-height: 1.6;
-    max-width: 320px;
+    background-color: var(--color-cream-paper);
+    border-top: 1px solid var(--color-pencil-gray);
+    padding: 3.5rem 0 2rem;
+    margin-top: 4rem;
 }
 
 .footer-heading {
-    font-size: 0.88rem;
+    font-family: var(--font-inter);
+    font-size: 0.82rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--dark-text);
-    margin-bottom: 1.25rem;
+    letter-spacing: 0.08em;
+    color: var(--color-forest-ink);
+    margin-bottom: 1rem;
 }
 
 .footer-links {
@@ -691,61 +736,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-links li {
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
 }
 
 .footer-links a {
-    color: var(--muted-text);
+    color: var(--text-muted);
+    font-size: 0.9rem;
     text-decoration: none;
-    font-size: 0.92rem;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
 }
 
 .footer-links a:hover {
-    color: var(--primary-color);
+    color: var(--color-forest-ink);
+    text-decoration: underline;
 }
 
 .footer-bottom {
-    margin-top: 3.5rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.88rem;
-    color: var(--muted-text);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--color-pencil-gray);
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
-
-/* ==========================================================================
-   Responsive adjustments
-   ========================================================================== */
-@media (max-width: 991.98px) {
-    .hero-title {
-        font-size: 2.65rem;
-    }
-    
-    .cta-banner-card {
-        padding: 2.5rem 1.75rem;
-    }
-    
-    .cta-banner-card h2 {
-        font-size: 1.85rem;
-    }
-}
-
-@media (max-width: 575.98px) {
-    .hero-title {
-        font-size: 2.15rem;
-    }
-    
-    .hero-description {
-        font-size: 1.05rem;
-    }
-    
-    .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .hero-buttons .btn {
-        width: 100%;
-    }
-}
-

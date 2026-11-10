@@ -4,27 +4,22 @@
 {% block title %}Showcase Projects — portfoli.io{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light" style="min-height: calc(100vh - 200px);">
-    <div class="container">
-        <!-- Breadcrumb & Header -->
+<section class="py-5" style="min-height: calc(100vh - 200px); background-color: var(--color-cream-paper);">
+    <div class="container" style="max-width: 1140px;">
+        <!-- Header -->
         <div class="mb-4">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-2 small">
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" class="text-decoration-none">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Projects</li>
-                </ol>
-            </nav>
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 border-bottom border-secondary border-opacity-25">
                 <div>
-                    <h2 class="fw-bold text-dark mb-1">Showcase Projects</h2>
-                    <p class="text-muted mb-0">Feature the projects, web applications, and repositories that best represent your capabilities.</p>
+                    <span class="section-eyebrow-sketch mb-2">Showcase Works</span>
+                    <h2 class="font-display h3 mb-1">Featured Projects</h2>
+                    <p class="text-muted small mb-0">Feature the projects, repositories, and applications that best articulate your capabilities.</p>
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{% url 'dashboard' %}" class="btn btn-outline-custom">
-                        <i class="bi bi-arrow-left me-1"></i> Dashboard
+                        &larr; Dashboard
                     </a>
                     <a href="{% url 'project_create' %}" class="btn btn-primary-custom">
-                        <i class="bi bi-plus-circle me-1"></i> Add Project
+                        <i class="bi bi-plus-lg me-1"></i> Add Project &rarr;
                     </a>
                 </div>
             </div>
@@ -34,55 +29,59 @@
             <div class="row g-4">
                 {% for proj in projects %}
                 <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100 overflow-hidden" style="border-radius: var(--radius-lg); transition: all 0.25s ease;">
+                    <div class="card-sketch h-100 d-flex flex-column justify-content-between p-0 overflow-hidden">
                         {% if proj.image %}
-                            <div style="height: 200px; overflow: hidden; background-color: #f1f5f9;">
+                            <div style="height: 200px; overflow: hidden; border-bottom: 1px solid var(--color-forest-ink); background-color: #f7f4ec;">
                                 <img src="{{ proj.image.url }}" alt="{{ proj.title }}" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         {% else %}
-                            <div class="d-flex align-items-center justify-content-center" style="height: 120px; background: linear-gradient(135deg, #f8fafc, #eef2ff); border-bottom: 1px solid var(--border-color);">
-                                <i class="bi bi-code-square fs-1 text-primary text-opacity-50"></i>
+                            <div class="d-flex align-items-center justify-content-between px-3" style="height: 70px; background-color: #f7f4ec; border-bottom: 1px solid var(--color-forest-ink);">
+                                <span class="font-mono small text-muted"><i class="bi bi-folder-fill me-1 text-dark"></i> project_repo</span>
+                                <span class="badge-tag mono-tag small">{{ proj.title|slugify }}</span>
                             </div>
                         {% endif %}
 
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
                             <div>
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="fw-bold text-dark mb-0">{{ proj.title }}</h5>
+                                    <h4 class="font-display h5 mb-0">{{ proj.title }}</h4>
                                     <div class="d-flex gap-2">
                                         {% if proj.github_url %}
-                                            <a href="{{ proj.github_url }}" target="_blank" class="btn btn-sm btn-outline-secondary rounded-circle" title="View GitHub Repo">
+                                            <a href="{{ proj.github_url }}" target="_blank" class="btn btn-sm btn-outline-custom py-1 px-2" title="Source Code">
                                                 <i class="bi bi-github"></i>
                                             </a>
                                         {% endif %}
                                         {% if proj.live_url %}
-                                            <a href="{{ proj.live_url }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle" title="View Live Demo">
+                                            <a href="{{ proj.live_url }}" target="_blank" class="btn btn-sm btn-primary-custom py-1 px-2" title="Live Preview">
                                                 <i class="bi bi-box-arrow-up-right"></i>
                                             </a>
                                         {% endif %}
                                     </div>
                                 </div>
 
-                                <p class="text-muted small mb-3">
+                                <p class="text-muted small mb-3" style="line-height: 1.55;">
                                     {{ proj.description }}
                                 </p>
 
                                 {% if proj.tech_list %}
                                     <div class="d-flex flex-wrap gap-1 mb-3">
                                         {% for tech in proj.tech_list %}
-                                            <span class="badge bg-light text-dark border small fw-medium">{{ tech }}</span>
+                                            <span class="mono-tag">{{ tech }}</span>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
 
-                            <div class="d-flex justify-content-end gap-2 pt-3 border-top mt-auto">
-                                <a href="{% url 'project_edit' proj.pk %}" class="btn btn-sm btn-outline-custom">
-                                    <i class="bi bi-pencil me-1"></i> Edit
-                                </a>
-                                <a href="{% url 'project_delete' proj.pk %}" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash me-1"></i> Delete
-                                </a>
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25 mt-auto">
+                                <span class="font-mono small text-muted">ID #{{ proj.pk }}</span>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'project_edit' proj.pk %}" class="btn btn-sm btn-outline-custom">
+                                        <i class="bi bi-pencil me-1"></i> Edit
+                                    </a>
+                                    <a href="{% url 'project_delete' proj.pk %}" class="btn btn-sm btn-outline-custom text-danger border-danger">
+                                        <i class="bi bi-trash me-1"></i> Delete
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,22 +90,19 @@
             </div>
         {% else %}
             <!-- Empty State -->
-            <div class="card border-0 shadow-sm text-center py-5" style="border-radius: var(--radius-lg);">
-                <div class="card-body p-5">
-                    <div class="brand-icon-box mx-auto mb-3" style="width: 64px; height: 64px; font-size: 2rem;">
-                        <i class="bi bi-folder-plus"></i>
-                    </div>
-                    <h4 class="fw-bold text-dark mb-2">No Projects Added Yet</h4>
-                    <p class="text-muted mx-auto mb-4" style="max-width: 500px;">
-                        Showcase your top projects, code repositories, and deployed live apps to impress potential clients and hiring teams.
-                    </p>
-                    <a href="{% url 'project_create' %}" class="btn btn-primary-custom px-4 py-2">
-                        <i class="bi bi-plus-circle me-1"></i> Add Your First Project
-                    </a>
+            <div class="card-sketch text-center py-5">
+                <div class="brand-monogram-square mx-auto mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">
+                    <i class="bi bi-folder-plus"></i>
                 </div>
+                <h4 class="font-display h5 mb-2">No Projects Added Yet</h4>
+                <p class="text-muted small mx-auto mb-4" style="max-width: 500px;">
+                    Showcase your real-world projects, web applications, open-source repositories, and case studies.
+                </p>
+                <a href="{% url 'project_create' %}" class="btn btn-primary-custom">
+                    Add Your First Project &rarr;
+                </a>
             </div>
         {% endif %}
     </div>
 </section>
 {% endblock %}
-

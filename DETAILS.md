@@ -181,4 +181,83 @@ Per user request, public URL publishing has been streamlined into direct multi-f
   - Security, validation, and user isolation policies
   - Future roadmap
 
+---
+
+## 13. System Flow & Architecture Guide (`PROJECT_FLOW.md`)
+- Created [`PROJECT_FLOW.md`](PROJECT_FLOW.md) providing a short, clear, beginner-friendly explanation of:
+  - What technologies are used and why (Python, Django, SQLite, Bootstrap, DTL, Vanilla JS).
+  - Django Model-View-Template (MVT) request-response lifecycle.
+  - End-to-end user navigation flow from landing page to export with Mermaid diagram.
+  - Complete page connection and routing map for all 18 routes.
+  - Exact data flow: Form submission ➔ ORM insertion with strict user isolation ➔ dynamic preview rendering ➔ multi-format file exports (HTML/PDF/MD/JSON).
+  - Security policies (CSRF tokens, `@login_required`, PBKDF2 hashing, user data isolation).
+
+---
+
+## 14. Theme Redesign: "Say Briefly" — Creative Agency Sketchbook on Cream Paper
+- **Color Palette & Tokens**:
+  - `Forest Ink` (`#1a3300`): Structural workhorse carrying 90% of weight for primary text, links, filled buttons, card borders, and nav borders.
+  - `Highlighter Yellow` (`#ffe95c`): Editorial text highlight wash (`.highlight-yellow`), tagline eyebrow badges, monogram logo square.
+  - `Cream Paper` (`#fcfaf5`): Base canvas across all pages, card surfaces, and navbar.
+  - `Pencil Gray` (`#b6b6b6`): Subtle divider hairlines and borders.
+  - `Sticky Note Pastels`: Soft Mint (`#d5f5c2`), Teal (`#a8e5e5`), and Blush (`#f6d0ff`) scattered as tactile sticky notes for features, status pills, and alerts.
+- **Typography System**:
+  - `Bricolage Grotesque 800`: Display headlines with positive tracking (`0.04em-0.05em`), giving a chunky, sticker-book voice.
+  - `Inter (400-700)`: Clean humanist sans for body, subheadings, labels, nav links, and form controls.
+  - `Roboto Mono`: Technical metadata, chips, and micro-tags.
+- **Components & Layout**:
+  - Floating pill-shaped navbar on Cream Paper with 16px radius, Pencil Gray border, and two-part lockup (Yellow square `po` monogram + `portfoli.io` wordmark).
+  - 6px border radius strictly applied to all buttons (`.btn-primary-custom`, `.btn-outline-custom`, etc.).
+  - 12-16px border radius for cards with flat color separations and 1px borders instead of heavy drop shadows.
+  - All application pages redesigned and harmonized: Base layout, Landing page, User Dashboard, Authentication (Login/Register), Profile Editor, Education CRUD, Skills CRUD, Projects CRUD, Portfolio Preview bar, and Printable Resume view.
+- **Verification**: All **49 unit & integration tests** pass with 100% success (`Ran 49 tests in 18.262s, OK`).
+
+---
+
+## 15. Authenticated Navigation & Interaction Verification
+- **Global Anchor Routing**:
+  - Updated navbar and footer navigation links (`Features`, `Templates`, `How It Works`) from relative `#anchor` to `{% url 'landing' %}#anchor` (`/#features`, `/#templates`, `/#how-it-works`).
+  - Allows authenticated users on `/dashboard/`, `/profile/edit/`, `/education/`, `/skills/`, or `/projects/` to click navbar links and jump smoothly back to that section on the landing page.
+- **Enhanced Smooth Scroll Engine (`static/js/main.js`)**:
+  - Handles same-page smooth scroll on `/#anchor` without reloading the page.
+  - Automatically compensates for sticky navbar height (`offsetPosition = elementPosition + window.pageYOffset - navHeight - 20`) both on click and when arriving at the page with an anchor hash in the URL.
+- **Landing Page Template Modal for Authenticated Users**:
+  - Previously, clicking "Use [Template]" in the preview modal simply closed the modal and redirected to the dashboard without switching the template.
+  - Upgraded modal footer for logged-in users to provide:
+    1. A **"Use [Template] &rarr;"** form button that immediately updates their portfolio template to the chosen style via `portfolio_template_select`.
+    2. A **"Live Preview with My Data"** button (`portfolio_preview?template=<id>`) to immediately inspect their actual portfolio data in that template.
+- **Step Number Rendering**:
+  - Added `'step'` key to `steps` in `landing_page` view and updated template to `{{ step.number }}` so step numbers ("01", "02", "03") render with full fidelity.
+- **Automated Testing**:
+  - Added `test_landing_page_authenticated_user` to `myapp/tests.py`.
+  - All **50 unit & integration tests** pass cleanly (`Ran 50 tests in 17.724s, OK`).
+
+---
+
+## 16. Visual Enhancement: Light Green Wash for Cards & Boxes
+- **Context & Motivation**:
+  - The sketchbook theme's original palette used Cream Paper (`#fcfaf5`) for both page canvas and card surfaces, which produced a slightly flat, pale appearance without sufficient dimensional hierarchy.
+  - Applied a delicate, organic light green wash across all cards, step blocks, frames, and feature boxes to make the interface visually appealing, tactile, and lively.
+- **CSS Color Tokens (`static/css/style.css`)**:
+  - `--color-mint-wash: #edf6ea;` — Primary card/box fill: a soft, muted sage-mint tint that sits comfortably between Cream Paper (`#fcfaf5`) and saturated sticky mint (`#d5f5c2`).
+  - `--color-mint-wash-subtle: #f4f9f1;` — Secondary inner container wash for mockups, code headers, and subtle dividers.
+  - `--color-mint-wash-hover: #e2f0dd;` — Interactive hover state for cards and list items.
+  - `--color-mint-wash-banner: #e4f2de;` — Bottom CTA banner surface fill.
+  - `--bg-card: var(--color-mint-wash);` — Global semantic card background token.
+- **Components Styled with Light Green Tint**:
+  - `.card-sketch`: Dashboard metric cards, section panels, form containers, profile info boxes.
+  - `.step-card-sketch`: "How It Works" 3-step workflow cards on the landing page.
+  - `.hero-mockup-frame` & `.hero-mockup-bar`: Hero illustration and interactive portfolio preview card frames.
+  - `.cta-sketch-banner`: Bottom call-to-action banner on the landing page.
+  - `.card-sticky-cream`: Secondary utility cards.
+  - `.backed-by-item`: Tech stack credibility pills in the hero section.
+  - Crisp white (`#ffffff`) tag backgrounds (`.mono-tag`) and form inputs (`.form-control`) provide high-contrast readability against the light green surface.
+- **Accessibility & Verification**:
+  - Forest Ink text (`#1a3300`) on `--color-mint-wash` (`#edf6ea`) provides an **11.8:1 contrast ratio**, well exceeding WCAG 2.1 AAA requirements (7:1).
+  - All **50 unit and integration tests** pass cleanly (`Ran 50 tests in 18.525s, OK`).
+
+
+
+
+
 
